@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from flask import Flask, render_template
 # from app.tasks.instagram_scraper import ig_profile, ig_user_post, ig_hashtag_post
 # from app.tasks.facebook_scraper import fb_profile, fb_page_post, fb_group_post
