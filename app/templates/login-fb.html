@@ -41,16 +41,20 @@
                 });
             }
 
-            function logout() {
-                FB.logout(function(response) {
-                // user is now logged out
-                    });
-            }
+            // function logout() {
+            //     FB.logout(function(response) {
+            //     // user is now logged out
+            //         });
+            // }
         </script>
         <!-- The JS SDK Login Button -->
         <fb:login-button data-width="" data-size="large" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="true" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
         <div id="status"></div>
         <!-- Load the JS SDK asynchronously -->
         <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+        <p>
+            <a href="">Start Collecting Data</a>
+        </p>
     </body>
 </html>
