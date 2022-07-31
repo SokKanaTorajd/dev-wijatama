@@ -13,7 +13,7 @@ def index():
 def login_fb():
     return render_template('login-fb.html')
 
-@app.route('/collect-data', methods=['POST'])
+@app.route('/collect-data', methods=['GET','POST'])
 def collect_data():
     tokens = []
     if request.method == 'POST':
