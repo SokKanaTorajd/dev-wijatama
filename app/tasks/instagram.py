@@ -18,7 +18,7 @@ def get_insights(access_token):
 
     # get page_id
     pages_info = api.get_fbPages()
-    print('fb page(s)was succesfully collected')
+    print('fb page(s) was succesfully collected')
     print(pages_info)
     sleep(5)
 

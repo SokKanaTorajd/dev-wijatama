@@ -41,7 +41,7 @@ class MetaAPI(object):
         }
         url = f'{self.base_url}{self.api_version}/{self.page_id}/'
         response = requests.get(url, params=params)
-        response.json()
+        response = response.json()
         self.ig_id = response['instagram_business_account']['id']
         return response
 
