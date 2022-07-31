@@ -28,7 +28,7 @@ class MongoDBModel(object):
     def getToken(self):
         db = self.client[self.db]
         token = db['tokens'].find().sort("_id", pymongo.DESCENDING).limit(1)
-        return token
+        return token[0]
     
     def getAllDocByOneField(self, collection:str, field:str, include_id=False):
         """
