@@ -9,6 +9,7 @@ api = MetaAPI()
 @worker.task(name='instagram.get_insights')
 def get_insights(access_token):
     api.user_access_token = access_token
+    print('user_access_token is received')
     # get fb_id
     fb_profile = api.get_fbID()
     print('fb id was succesfully collected')
