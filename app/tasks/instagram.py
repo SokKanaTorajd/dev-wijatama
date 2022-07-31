@@ -13,16 +13,19 @@ def get_insights(access_token):
     # get fb_id
     fb_profile = api.get_fbID()
     print('fb id was succesfully collected')
+    print(fb_profile)
     sleep(5)
 
     # get page_id
     pages_info = api.get_fbPages()
     print('fb page(s)was succesfully collected')
+    print(pages_info)
     sleep(5)
 
     # get ig_id
     ig_info = api.get_igID()
     print('ig id was succesfully collected')
+    print(ig_info)
     sleep(5)
 
     # get media_id(s)
