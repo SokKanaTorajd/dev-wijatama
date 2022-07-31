@@ -18,8 +18,9 @@ class MetaAPI(object):
         }
         url = f'{self.base_url}{self.api_version}/me'
         response = requests.get(url, params=params)
+        response = response.json()
         self.fb_id = response['id']
-        return response.json()
+        return response
 
     def get_fbPages(self, fb_id=None):
         if (self.fb_id is None) and (fb_id is not None):
@@ -29,11 +30,11 @@ class MetaAPI(object):
             }
             url = f'{self.base_url}{self.api_version}/{self.fb_id}/accounts'
             response = requests.get(url, params=params)
-
+            response = response.json()
             if len(response['data']) == 1:
                 self.page_id = response['data'][0]['id']
 
-            return response.json()
+            return response
 
     def get_igID(self, page_id=None):
         if (self.page_id is None) and (page_id is not None):
@@ -44,8 +45,9 @@ class MetaAPI(object):
             }
             url = f'{self.base_url}{self.api_version}/{self.page_id}/'
             response = requests.get(url, params=params)
+            response.json()
             self.ig_id = response['instagram_business_account']['id']
-            return response.json()
+            return response
 
     def get_igMedias(self, ig_id=None):
         if (self.ig_id is None) and (ig_id is not None):
