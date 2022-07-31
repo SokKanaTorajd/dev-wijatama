@@ -24,6 +24,7 @@ def collect_data():
 
     if request.method == 'GET':
         print('initializig to collect data')
+        print(tokens)
         get_insights.delay(tokens[0])
         return 'processing data'
 
