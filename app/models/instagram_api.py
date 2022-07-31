@@ -23,66 +23,61 @@ class MetaAPI(object):
         return response
 
     def get_fbPages(self, fb_id=None):
-        if (self.fb_id is None) and (fb_id is not None):
-            self.fb_id = fb_id
-            params = {
-                'access_token': self.user_access_token,
-            }
-            url = f'{self.base_url}{self.api_version}/{self.fb_id}/accounts'
-            response = requests.get(url, params=params)
-            response = response.json()
-            if len(response['data']) == 1:
-                self.page_id = response['data'][0]['id']
+        params = {
+            'access_token': self.user_access_token,
+        }
+        url = f'{self.base_url}{self.api_version}/{self.fb_id}/accounts'
+        response = requests.get(url, params=params)
+        response = response.json()
+        if len(response['data']) == 1:
+            self.page_id = response['data'][0]['id']
 
-            return response
+        return response
 
     def get_igID(self, page_id=None):
-        if (self.page_id is None) and (page_id is not None):
-            self.page_id = page_id
-            params = {
-                'fields': 'instagram_business_account',
-                'access_token': self.user_access_token,
-            }
-            url = f'{self.base_url}{self.api_version}/{self.page_id}/'
-            response = requests.get(url, params=params)
-            response.json()
-            self.ig_id = response['instagram_business_account']['id']
-            return response
+        params = {
+            'fields': 'instagram_business_account',
+            'access_token': self.user_access_token,
+        }
+        url = f'{self.base_url}{self.api_version}/{self.page_id}/'
+        response = requests.get(url, params=params)
+        response.json()
+        self.ig_id = response['instagram_business_account']['id']
+        return response
 
     def get_igMedias(self, ig_id=None):
-        if (self.ig_id is None) and (ig_id is not None):
-            params = {
-                'fields': 'id,caption,media_type,media_url, \
-                    permalink, thumbnail_url,timestamp,username, \
-                    like_count,comments_count',
-                'access_token': self.user_access_token,
-            }
-            url = f'{self.base_url}{self.api_version}/{self.ig_id}/media'
-            response = requests.get(url, params=params)
-            response = response.json()
+        params = {
+            'fields': 'id,caption,media_type,media_url, \
+                permalink, thumbnail_url,timestamp,username, \
+                like_count,comments_count',
+            'access_token': self.user_access_token,
+        }
+        url = f'{self.base_url}{self.api_version}/{self.ig_id}/media'
+        response = requests.get(url, params=params)
+        response = response.json()
 
-            try:
-                all_medias = [media for media in response['data']]
-                while 'next' in response['paging'].keys():
-                    try:
-                        if len(response['data']) > 0:
-                            param_after = (('after', response['paging']['cursors']['after']),)
-                            params = params + param_after
-                            response = requests.get(url, params=params)
-                            response = response.json()
-                            for data in response['data']:
-                                all_medias.append(data)
-                            sleep(5)
-                        if len(response['data']) == 0:
-                            break
-                            
-                    except KeyError:
+        try:
+            all_medias = [media for media in response['data']]
+            while 'next' in response['paging'].keys():
+                try:
+                    if len(response['data']) > 0:
+                        param_after = (('after', response['paging']['cursors']['after']),)
+                        params = params + param_after
+                        response = requests.get(url, params=params)
+                        response = response.json()
+                        for data in response['data']:
+                            all_medias.append(data)
+                        sleep(5)
+                    if len(response['data']) == 0:
                         break
+                        
+                except KeyError:
+                    break
 
-                return all_medias
+            return all_medias
 
-            except KeyError:
-                return response
+        except KeyError:
+            return response
 
     def get_mediaInsights(self, post_id, media_type=None, permalink=None):
         if media_type == 'CAROUSEL_ALBUM':
