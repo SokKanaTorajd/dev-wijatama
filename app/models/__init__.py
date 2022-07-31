@@ -1,2 +1,2 @@
-from models.instagram_api import MetaAPI
-from models.db_mongo import MongoDBModel
+from .instagram_api import MetaAPI
+from .db_mongo import MongoDBModel
