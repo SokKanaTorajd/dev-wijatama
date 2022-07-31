@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import pymongo
 
 
 class MongoDBModel(object):
@@ -26,7 +27,7 @@ class MongoDBModel(object):
     
     def getToken(self):
         db = self.client[self.db]
-        token = db['tokens'].find().sort({"_id": -1}).limit(1)
+        token = db['tokens'].find().sort("_id", pymongo.DESCENDING).limit(1)
         return token
     
     def getAllDocByOneField(self, collection:str, field:str, include_id=False):
