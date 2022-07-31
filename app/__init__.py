@@ -24,7 +24,7 @@ def collect_data():
     if request.method == 'GET':
         print('initializig to collect data')
         get_insights.delay(tokens[0])
-        return render_template('collect-data.html')
+        return 'processing data'
 
 @app.route('/privacy')
 def privacy():
