@@ -6,7 +6,7 @@ from time import sleep
 mongo = MongoDBModel(config.DB_NAME, config.MONGODB_URI)
 api = MetaAPI()
 
-@worker.task('instagram.get_insights')
+@worker.task(name='instagram.get_insights')
 def get_insights(access_token):
     api.user_access_token = access_token
     # get fb_id
