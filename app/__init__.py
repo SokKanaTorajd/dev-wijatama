@@ -15,14 +15,14 @@ def login_fb():
 
 @app.route('/collect-data', methods=['POST'])
 def collect_data():
+    tokens = []
     if request.method == 'POST':
         auth_response = request.get_json()
-        access_token = auth_response['authResponse']['accessToken']
-        print('initializig to collect data')
-        get_insights.delay(access_token)
-        return render_template('index.html')
-    
+        tokens.append(auth_response['authResponse']['accessToken'])
+
     if request.method == 'GET':
+        print('initializig to collect data')
+        get_insights.delay(tokens[0])
         return render_template('collect-data.html')
 
 @app.route('/privacy')
