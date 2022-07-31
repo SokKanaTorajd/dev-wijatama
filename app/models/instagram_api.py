@@ -31,7 +31,7 @@ class MetaAPI(object):
             response = requests.get(url, params=params)
 
             if len(response['data']) == 1:
-                self.page_id = response['data'][0['id']]
+                self.page_id = response['data'][0]['id']
 
             return response.json()
 
