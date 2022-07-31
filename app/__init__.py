@@ -19,6 +19,7 @@ def collect_data():
     if request.method == 'POST':
         auth_response = request.get_json()
         tokens.append(auth_response['authResponse']['accessToken'])
+        return {'message': 'data received'}
 
     if request.method == 'GET':
         print('initializig to collect data')
