@@ -60,6 +60,7 @@ class MetaAPI(object):
             url = f'{self.base_url}{self.api_version}/{self.ig_id}/media'
             response = requests.get(url, params=params)
             response = response.json()
+            print(response)
 
             try:
                 all_medias = [media for media in response['data']]
