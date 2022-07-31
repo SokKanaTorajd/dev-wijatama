@@ -24,6 +24,11 @@ class MongoDBModel(object):
         db = self.client[self.db]
         db[collection].insert_one(data)
     
+    def getToken(self):
+        db = self.client[self.db]
+        token = db['tokens'].find_one().sort({"_id": -1})
+        return token
+    
     def getAllDocByOneField(self, collection:str, field:str, include_id=False):
         """
         Desc: get all the data inside a collection by filtering one field.
