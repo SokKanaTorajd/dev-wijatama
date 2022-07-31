@@ -17,6 +17,7 @@ def login_fb():
 def collect_data():
     if request.method == 'POST':
         auth_response = request.get_json()
+        print(auth_response)
         access_token = auth_response.authResponse['accessToken']
         get_insights.delay(access_token)
         return render_template('collect-data.html')
