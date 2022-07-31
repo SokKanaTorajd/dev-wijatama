@@ -18,10 +18,12 @@ def collect_data():
     if request.method == 'POST':
         auth_response = request.get_json()
         access_token = auth_response['authResponse']['accessToken']
+        print('initializig to collect data')
         get_insights.delay(access_token)
-        return render_template('collect-data.html')
+        return render_template('index.html')
     
-    return render_template('index.html')
+    if request.method == 'GET':
+        return render_template('collect-data.htm')
 
 @app.route('/privacy')
 def privacy():
