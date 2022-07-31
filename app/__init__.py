@@ -23,7 +23,7 @@ def collect_data():
         return render_template('index.html')
     
     if request.method == 'GET':
-        return render_template('collect-data.htm')
+        return render_template('collect-data.html')
 
 @app.route('/privacy')
 def privacy():
