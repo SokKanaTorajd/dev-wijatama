@@ -11,18 +11,22 @@ def get_insights(access_token):
     api.user_access_token = access_token
     # get fb_id
     fb_profile = api.get_fbID()
+    print('fb id was succesfully collected')
     sleep(5)
 
     # get page_id
     pages_info = api.get_fbPages()
+    print('fb page(s)was succesfully collected')
     sleep(5)
 
     # get ig_id
     ig_info = api.get_igID()
+    print('ig id was succesfully collected')
     sleep(5)
 
     # get media_id(s)
     ig_posts = api.get_igMedias()
+    print('ig post was succesfully collected')
     sleep(5)
 
     # get media_insight(s)
@@ -33,7 +37,7 @@ def get_insights(access_token):
         insight['id'] = field[0]
         media_insights.append(insight)
         sleep(3)
-
+    print('media insights was succesfully collected')
     sleep(5)
     
     # get account_insight
