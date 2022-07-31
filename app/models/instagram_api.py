@@ -61,8 +61,9 @@ class MetaAPI(object):
             while 'next' in response['paging'].keys():
                 try:
                     if len(response['data']) > 0:
-                        param_after = (('after', response['paging']['cursors']['after']),)
-                        params = params + param_after
+                        # param_after = (('after', response['paging']['cursors']['after']),)
+                        # params = params + param_after
+                        params['after'] = response['paging']['cursors']['after']
                         response = requests.get(url, params=params)
                         response = response.json()
                         for data in response['data']:

@@ -35,7 +35,7 @@ def get_insights(access_token):
     sleep(5)
 
     # get media_insight(s)
-    medias = [(elem['id'], elem['media_type'], elem['permalink']) for elem in ig_posts['data']]
+    medias = [(elem[i]['id'], elem[i]['media_type'], elem[i]['permalink']) for i,elem in enumerate(ig_posts)]
     media_insights = []
     for field in medias:
         insight = api.get_mediaInsights(field[0], media_type=field[1], permalink=field[2])
