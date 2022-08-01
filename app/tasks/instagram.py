@@ -22,6 +22,11 @@ def get_insights(access_token):
     print(pages_info)
     sleep(5)
 
+    # get profile instagram
+    ig_profile = api.get_igProfile()
+    print(ig_profile)
+    sleep(5)
+
     # get ig_id
     ig_info = api.get_igID()
     print('ig id was succesfully collected')
@@ -51,7 +56,8 @@ def get_insights(access_token):
     data = {
         'facebook_profile': fb_profile,
         'facebook_pages': pages_info,
-        'instagram_profile': ig_info,
+        'instagram_profile': ig_profile,
+        'instagram_id': ig_info,
         'instagram_posts': ig_posts,
         'media_insights': media_insights
     }
