@@ -22,15 +22,15 @@ def get_insights(access_token):
     print(pages_info)
     sleep(5)
 
-    # get profile instagram
-    ig_profile = api.get_igProfile()
-    print(ig_profile)
-    sleep(5)
-
     # get ig_id
     ig_info = api.get_igID()
     print('ig id was succesfully collected')
     print(ig_info)
+    sleep(5)
+
+    # get profile instagram
+    ig_profile = api.get_igProfile()
+    print(ig_profile)
     sleep(5)
 
     # get media_id(s)
