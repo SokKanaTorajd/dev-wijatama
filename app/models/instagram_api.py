@@ -23,6 +23,8 @@ class MetaAPI(object):
         return response
 
     def get_fbPages(self, fb_id=None):
+        if fb_id is not None:
+            self.fb_id = fb_id
         params = {
             'access_token': self.user_access_token,
         }
@@ -35,6 +37,8 @@ class MetaAPI(object):
         return response
 
     def get_igID(self, page_id=None):
+        if page_id is not None:
+            self.page_id = page_id
         params = {
             'fields': 'instagram_business_account',
             'access_token': self.user_access_token,
@@ -44,8 +48,23 @@ class MetaAPI(object):
         response = response.json()
         self.ig_id = response['instagram_business_account']['id']
         return response
+    
+    def get_igProfile(self, ig_id=None):
+        if ig_id is not None:
+            self.ig_id = ig_id
+        params = {
+            'fields': 'id,username,name,profile_picture_url, \
+                biography,media_count,follows_count,followers_count',
+            'access_token': self.user_access_token,
+        }
+        url = f'{self.base_url}{self.api_version}/{self.ig_id}'
+        response = requests.get(url, params=params)
+        response = response.json()
+        return response
 
     def get_igMedias(self, ig_id=None):
+        if ig_id is not None:
+            self.ig_id = ig_id
         params = {
             'fields': 'id,caption,media_type,media_url, \
                 permalink, thumbnail_url,timestamp,username, \
