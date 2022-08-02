@@ -33,33 +33,38 @@ def get_insights(access_token):
     print(ig_profile)
     sleep(5)
 
-    # get media_id(s)
-    ig_posts = api.get_igMedias()
-    print('ig post was succesfully collected')
-    print(ig_posts)
-    sleep(5)
-
-    # get media_insight(s)
-    medias = [(elem['id'], elem['media_type'], elem['permalink']) for elem in ig_posts]
-    media_insights = []
-    for field in medias:
-        insight = api.get_mediaInsights(field[0], media_type=field[1], permalink=field[2])
-        insight['id'] = field[0]
-        media_insights.append(insight)
-        sleep(3)
-    print('media insights was succesfully collected')
-    sleep(5)
-    
-    # get account_insight
-
     # input to db
     data = {
         'facebook_profile': fb_profile,
         'facebook_pages': pages_info,
         'instagram_profile': ig_profile,
         'instagram_id': ig_info,
-        'instagram_posts': ig_posts,
-        'media_insights': media_insights
     }
     mongo.insertByOne('instagram', data)
+
+    # get media_id(s)
+    ig_posts = api.get_igMedias()
+    print('ig post was succesfully collected')
+    print(ig_posts)
+    posts_data = {
+        'posts': ig_posts
+    }
+    mongo.insertByOne('ig-posts', posts_data)
+    sleep(5)
+
+    # get media_insight(s)
+    medias = [(elem['id'], elem['media_type'], elem['permalink']) for elem in ig_posts]
+    media_insights = []
+    counter = 0
+    for field in medias:
+        insight = api.get_mediaInsights(field[0], media_type=field[1], permalink=field[2])
+        insight['id'] = field[0]
+        media_insights.append(insight)
+        mongo.insertByOne('media-insights', insight)
+        counter += 1
+        print(counter)
+        sleep(3)
+    print('media insights was succesfully collected')
+    sleep(5)
+    
     return 'All data successfully acquired.'
