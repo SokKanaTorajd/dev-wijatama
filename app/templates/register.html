@@ -1,0 +1,49 @@
+{% extends './layout/auth.html' %}
+{% block title %} Sistem Rekomendasi Promosi Produk Maula Hijab {% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card text-white bg-primary card mb-3" style="margin:0 auto;">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Registrasi User</h5>
+                        <!-- {% if error %}
+                            <p class="error text-center">{{ error }}</p>
+                        {% endif %} -->
+                        <form action="" method="POST">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nama Lengkap</label>
+                                        <input type="text"  required name="nama_lengkap" 
+                                            class="form-control" value="{{ request.form.nama_lengkap }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email"  required name="email" 
+                                            class="form-control" value="{{ request.form.email }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type="text" name="username" 
+                                            class="form-control" value="{{ request.form.username }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" name="password"
+                                            class="form-control" value="{{ request.form.password }}">
+                                    </div>       
+                                    <button type="submit" class="btn btn-danger float-right">Registrasi</button>
+                                    <a href="{{ url_for('index')}}" class="text-white">Sudah punya akun</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>  
+            </div>
+
+        </div>
+        
+    </div>
+{% endblock %}

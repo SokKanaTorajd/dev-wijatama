@@ -1,0 +1,22 @@
+{% extends './layout/layout.html' %}
+{% block title %} Upload File {% endblock %}
+
+{% block main %}
+<div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Unggah Data Penjualan</h6>
+        </div>
+        <div class="card-body">
+            <form action="/uploader" method = "POST" enctype = "multipart/form-data">
+                <input type="file" name="file"/>
+                <p></p>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" value="simpan">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}

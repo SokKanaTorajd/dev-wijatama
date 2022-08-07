@@ -1,14 +1,181 @@
-from flask import Flask, render_template, request
+import imp
+from flask import Flask, render_template, request, \
+    redirect, url_for, session, Response, flash
+from flask_paginate import Pagination, get_page_args
+from werkzeug.utils import secure_filename
+
+from app.config import SECRET_KEY, IG_POSTS_COLL
+from app.models import SQLDatabase
 from app.tasks.instagram import mongo, get_insights
+from app.utils.set_pagination import set_offset
+
 import datetime
 
 
 app = Flask(__name__)
+app.secret_key = SECRET_KEY
+db = SQLDatabase()
+
+ig_post_coll = IG_POSTS_COLL
 
 
-@app.route('/')
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    error = None
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        try:
+            login_data = db.login(username, password)
+            
+            if username==login_data[1] and password==login_data[2]:
+                session['id'] = login_data[0]
+                session['username'] = login_data[1]
+                session['nama_lengkap'] = login_data[3]
+                return redirect(url_for('dashboard_view'))
+            
+        except TypeError:
+            error = 'Invalid username or password! Please try again.'
+            return render_template('index.html', error=error)
+
+    if request.method == 'GET':
+        return render_template('index.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        nama_lengkap = request.form['nama_lengkap']
+        email = request.form['email']
+        user_data = (username, password, nama_lengkap, email)
+        db.add_user(user_data)
+        return redirect(url_for('index'))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+@app.route('/dashboard')
+def dashboard_view():
+    return render_template('dashboard.html')
+
+@app.route('/data-posting-produk')
+def instagram_post_data():
+    query = {
+            'permalink': 1, 'id': 1, 
+            'produk_1': 1, 'produk_2': 1, 
+            'produk_3': 1, 'produk_4': 1
+        }
+    links = mongo.getAllDocument(ig_post_coll, query)
+    data = []
+    for item in links:
+        id = item['id']
+        permalink = item['permalink']
+        try:
+            produk_1 = item['produk_1']
+        except KeyError:
+            produk_1 = ''
+        try:
+            produk_2 = item['produk_2']
+        except KeyError:
+            produk_2 = ''
+        try:
+            produk_3 = item['produk_3']
+        except KeyError:
+            produk_3 = ''
+        try:
+            produk_4 = item['produk_4']
+        except KeyError:
+            produk_4 = ''
+        elements = (id, permalink, produk_1, produk_2, produk_3, produk_4)
+        data.append(elements)
+    
+    page, per_page, offset = get_page_args(page_parameter='page',
+                                           per_page_parameter='per_page')
+    total = len(data)
+    pagination_data = set_offset(data, offset=offset, per_page=per_page)
+    pagination = Pagination(page=page, per_page=per_page, total=total,
+                            css_framework='bootstrap4')
+    return render_template('data-posting-produk.html', data=pagination_data,
+                            pagination=pagination, page=page, per_page=per_page,)
+
+@app.route('/update-data-posting/<id>', methods=['GET', 'POST'])
+def update_instagram_post(id):
+    if request.method == 'GET':
+        query = {
+                    'id': 1, 
+                    'permalink': 1, 
+                    'produk_1': 1,
+                    'produk_2': 1,
+                    'produk_3': 1,
+                    'produk_4': 1
+                }
+        data = mongo.getByOne(ig_post_coll, query)
+        id = data['id']
+        permalink = data['permalink']
+        try:
+            produk_1 = data['produk_1']
+        except KeyError:
+            produk_1 = ''
+        try:
+            produk_2 = data['produk_2']
+        except KeyError:
+            produk_2 = ''
+        try:
+            produk_3 = data['produk_3']
+        except KeyError:
+            produk_3 = ''
+        try:
+            produk_4 = data['produk_4']
+        except KeyError:
+            produk_4 = ''
+        return render_template('update-data-posting-produk.html', id=id, 
+                                permalink=permalink, produk_1=produk_1, 
+                                produk_2=produk_2, produk_3=produk_3,
+                                produk_4=produk_4)
+    
+    if request.method=='POST':
+        query = {
+            'id': request.form['id'],
+            'permalink': request.form['permalink']
+        }
+        new_values = {
+            "$set":
+            {
+                'produk_1': request.form['produk_1'],
+                'produk_2': request.form['produk_2'],
+                'produk_3': request.form['produk_3'],
+                'produk_4': request.form['produk_4'],
+            }}
+        mongo.updateByOne(ig_post_coll, query, new_values)
+        flash('Data berhasil diupdate')
+        return redirect(url_for('instagram_post_data'))
+
+@app.route('/delete-data-posting/<id>', methods=['GET', 'POST'])
+def delete_post_data(id):
+    mongo.deleteByOne(ig_post_coll, 'id', id)
+    flash('Data berhasil dihapus')
+    return redirect(url_for('instagram_post_data'))
+
+@app.route('/unggah-data')
+def upload():
+    return render_template('upload.html')
+
+@app.route('/uploader', methods=['GET', 'POST'])
+def uploader():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(secure_filename(f.filename))
+        return 'file uploaded successfully'
 
 @app.route('/login-fb')
 def login_fb():
@@ -31,6 +198,29 @@ def collect_data():
         token = mongo.getToken()
         get_insights.delay(token['user_access_token'])
         return 'processing data'
+
+@app.route('/hasil-rekomendasi')
+def results():
+    return render_template('results.html')
+
+@app.route('/profil/<id>', methods=['GET', 'POST'])
+def user_profil(id):
+    if request.method == 'GET':
+        user_data = db.get_user_by_id(id)
+        return render_template('profil.html', id=user_data[0], username=user_data[1], 
+                                password=user_data[2], nama_lengkap=user_data[3],
+                                email=user_data[4])
+
+    if request.method == 'POST':
+        user_id = request.form['id']
+        username = request.form['username']
+        password = request.form['password']
+        nama_lengkap = request.form['nama_lengkap']
+        email = request.form['email']
+        data = (username, password, nama_lengkap, email)
+        db.update_user(data)
+        flash('Data berhasil diupdate')
+        return redirect(url_for("user_profil", id=user_id))
 
 @app.route('/privacy')
 def privacy():

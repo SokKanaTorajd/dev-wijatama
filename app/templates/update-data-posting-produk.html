@@ -1,0 +1,44 @@
+{% extends './layout/layout.html' %}
+{% block title %} UPDATE DATA POSTING INSTAGRAM {% endblock %}
+
+{% block main%}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Edit Data Posting Instagram</h6>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="form-group d-none">
+                <label>Id</label>
+                <input type="text" class="form-control hidden" name="id" value="{{ id }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Link Post</label>
+                <input type="text" class="form-control" name="permalink" value="{{ permalink }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Produk 1</label>
+                <input type="text" class="form-control" name="produk_1" value="{{ produk_1 }}">
+            </div>
+            <div class="form-group">
+                <label>Produk 2</label>
+                <input type="text" class="form-control" name="produk_2" value="{{ produk_1 }}">
+            </div>
+            <div class="form-group">
+                <label>Produk 3</label>
+                <input type="text" class="form-control" name="produk_3" value="{{ produk_1 }}">
+            </div>
+            <div class="form-group">
+                <label>Produk 4</label>
+                <input type="text" class="form-control" name="produk_4" value="{{ produk_1 }}">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" value="simpan">Simpan</button>
+                <a href="{{ url_for('instagram_post_data') }}"></a>
+                <button class="btn btn-warning">Batal</button>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock main%}
