@@ -1,12 +1,14 @@
-import imp
 from flask import Flask, render_template, request, \
-    redirect, url_for, session, Response, flash
+    redirect, url_for, session, flash
 from flask_paginate import Pagination, get_page_args
 from werkzeug.utils import secure_filename
 
 from app.config import SECRET_KEY, IG_POSTS_COLL
-from app.models import SQLDatabase
+from app.models.clustering import process_instagram_data, \
+    process_sales_data, merge_instagram_and_sales, \
+    process_clustering, load_model_cluster
 from app.tasks.instagram import mongo, get_insights
+from app.tasks.notification import db
 from app.utils.set_pagination import set_offset
 
 import datetime
@@ -14,9 +16,15 @@ import datetime
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
-db = SQLDatabase()
 
 ig_post_coll = IG_POSTS_COLL
+
+## FIXME
+def notif():
+	tanggal = datetime.datetime.today()
+	tanggal = tanggal.strftime("%Y-%m-%d")
+	notifikasi=db.get_notif(tanggal)
+	session['notifikasi'] = notifikasi[0]
 
 
 @app.errorhandler(404)
@@ -112,13 +120,10 @@ def instagram_post_data():
 def update_instagram_post(id):
     if request.method == 'GET':
         query = {
-                    'id': 1, 
-                    'permalink': 1, 
-                    'produk_1': 1,
-                    'produk_2': 1,
-                    'produk_3': 1,
-                    'produk_4': 1
-                }
+            'permalink': 1, 'id': 1, 
+            'produk_1': 1, 'produk_2': 1, 
+            'produk_3': 1, 'produk_4': 1
+        }
         data = mongo.getByOne(ig_post_coll, query)
         id = data['id']
         permalink = data['permalink']
@@ -196,12 +201,26 @@ def collect_data():
     if request.method == 'GET':
         print('initializing to collect data')
         token = mongo.getToken()
-        get_insights.delay(token['user_access_token'])
-        return 'processing data'
+        get_insights.delay(session['id'], token['user_access_token'])
+        return render_template('collect-data.html')
 
 @app.route('/hasil-rekomendasi')
-def results():
-    return render_template('results.html')
+def output_clustering():
+    sales_url = '<get from cloud storage>'
+    ig_posts = process_instagram_data()
+    sales_data = process_sales_data(sales_url)
+    product_sales_insights = merge_instagram_and_sales(ig_posts, sales_data)
+    
+    model_url = '<get from cloud storage>'
+    model = load_model_cluster(model_url)
+    result = process_clustering(model, product_sales_insights)
+
+    return render_template('results.html', sales=sales_data,
+                            instagram=ig_posts, result=result)
+
+@app.route('/notifikasi')
+def notify():
+    return render_template('notification.html')
 
 @app.route('/profil/<id>', methods=['GET', 'POST'])
 def user_profil(id):
