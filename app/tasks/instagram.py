@@ -1,13 +1,15 @@
 from app import config
 from app.models import MetaAPI, MongoDBModel
 from app.tasks import worker
+from app.tasks.notification import send_notif
 from time import sleep
+import datetime
 
 mongo = MongoDBModel(config.DB_NAME, config.MONGODB_URI)
 api = MetaAPI()
 
 @worker.task(name='instagram.get_insights')
-def get_insights(access_token):
+def get_insights(user_session, access_token):
     api.user_access_token = access_token
     print('user_access_token is received')
     # get fb_id
@@ -66,5 +68,9 @@ def get_insights(access_token):
         sleep(3)
     print('media insights was succesfully collected')
     sleep(5)
+
+    time_now = datetime.datetime.now()
+    messages = 'media insights was succesfully collected.'
+    notif_data = (user_session, messages, time_now)
     
-    return 'All data successfully acquired.'
+    return send_notif.delay(notif_data)
