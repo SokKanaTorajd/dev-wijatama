@@ -1,4 +1,17 @@
-<!DOCTYPE html>
-<html>
-    <p>Your data is being collected</p>
-</html>
+{% extends './layout/layout.html' %}
+{% block title %} Sedang mengambil data Instagram {% endblock %}
+
+{% block main %}
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Data Posting Instagram</h6>
+  </div>
+  <div class="card-body">
+    <div>
+        <p>
+            Sedang mengambil data Instagram. Anda akan menerima notifikasi jika proses telah selesai.
+        </p>
+    </div>
+  </div>
+</div>
+{% endblock main %}
