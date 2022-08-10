@@ -3,6 +3,8 @@ from flask import Flask, render_template, request, \
 from flask_paginate import Pagination, get_page_args
 from werkzeug.utils import secure_filename
 
+from app.cloud_storage.gcp_storage import download_blob, \
+    list_blobs, upload_blob
 from app.config import SECRET_KEY, IG_POSTS_COLL
 from app.models.clustering import process_instagram_data, \
     process_sales_data, merge_instagram_and_sales, \
@@ -178,9 +180,13 @@ def upload():
 @app.route('/uploader', methods=['GET', 'POST'])
 def uploader():
     if request.method == 'POST':
+        destination = '/sales-data/'
         f = request.files['file']
-        f.save(secure_filename(f.filename))
-        return 'file uploaded successfully'
+        filename = secure_filename(f.filename())
+        f.save(filename)
+        upload_blob(filename, destination)
+        return redirect(url_for('upload'))
+    
 
 @app.route('/login-fb')
 def login_fb():
