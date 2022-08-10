@@ -180,9 +180,11 @@ def upload():
 @app.route('/uploader', methods=['GET', 'POST'])
 def uploader():
     if request.method == 'POST':
-        f = request.files['file']
-        filename = secure_filename(f.filename)
-        f.save(filename)
+        file = request.files['file']
+        print(f'this is f. {file}')
+        filename = secure_filename(file.filename)
+        print(f'this is filename. {filename}')
+        file.save(filename)
         upload_blob(filename)
         return redirect(url_for('upload'))
 
