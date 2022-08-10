@@ -20,6 +20,7 @@ credentials_content = {
 # credentials_content = json.dumps(credentials_content, indent=4)
 
 creds = config.GCP_CREDS
+creds = json.loads(creds)
 print(creds)
 # creds['private_key'] = creds['private_key'].replace('\\n', '\n')
 
