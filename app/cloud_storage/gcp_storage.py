@@ -16,10 +16,10 @@ credentials_content = {
     'auth_provider_x509_cert_url': config.GCP_AUTH_PROVIDER_CERT_URL,
     'client_x509_cert_url': config.GCP_CLIENT_CERT_URL
 }
-print(credentials_content)
+# print(credentials_content)
 # credentials_content = json.dumps(credentials_content, indent=4)
 
-credentials = service_account.Credentials.from_service_account_info(credentials_content)
+credentials = service_account.Credentials.from_service_account_info(config.GCP_CREDS)
 
 storage_client = storage.Client(credentials=credentials)
 
