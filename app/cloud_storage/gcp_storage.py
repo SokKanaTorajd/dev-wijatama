@@ -15,7 +15,7 @@ credentials_content = {
     'client_x509_cert_url': config.GCP_CLIENT_CERT_URL
 }
 
-credentials = service_account.Credentials.from_service_account_info(credentials_content)
+credentials = service_account.Credentials.from_service_account_file(credentials_content)
 
 storage_client = storage.Client(credentials=credentials)
 
