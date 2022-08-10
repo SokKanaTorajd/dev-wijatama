@@ -19,7 +19,11 @@ credentials_content = {
 # print(credentials_content)
 # credentials_content = json.dumps(credentials_content, indent=4)
 
-credentials = service_account.Credentials.from_service_account_info(config.GCP_CREDS)
+creds = config.GCP_CREDS
+print(creds)
+creds['private_key'] = creds['private_key'].replace('\\n', '\n')
+
+credentials = service_account.Credentials.from_service_account_info(creds)
 
 storage_client = storage.Client(credentials=credentials)
 
