@@ -19,7 +19,7 @@ credentials_content = {
 
 credentials_content = json.dumps(credentials_content, indent=4)
 
-credentials = service_account.Credentials.from_service_account_file(credentials_content)
+credentials = service_account.Credentials.from_service_account_info(credentials_content)
 
 storage_client = storage.Client(credentials=credentials)
 
