@@ -2,6 +2,8 @@ from google.cloud import storage
 from google.oauth2 import service_account
 from app import config
 
+import json
+
 credentials_content = {
     'type': 'service_account',
     'project_id': config.GCP_PROJECT_ID,
@@ -14,6 +16,8 @@ credentials_content = {
     'auth_provider_x509_cert_url': config.GCP_AUTH_PROVIDER_CERT_URL,
     'client_x509_cert_url': config.GCP_CLIENT_CERT_URL
 }
+
+credentials_content = json.dumps(credentials_content, indent=4)
 
 credentials = service_account.Credentials.from_service_account_file(credentials_content)
 
