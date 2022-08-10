@@ -182,7 +182,7 @@ def uploader():
     if request.method == 'POST':
         destination = '/sales-data/'
         f = request.files['file']
-        filename = secure_filename(f.filename())
+        filename = secure_filename(f.filename)
         f.save(filename)
         upload_blob(filename, destination)
         return redirect(url_for('upload'))
