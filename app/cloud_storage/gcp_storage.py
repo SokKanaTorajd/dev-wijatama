@@ -4,41 +4,17 @@ from app import config
 
 import json
 
-credentials_content = {
-    'type': 'service_account',
-    'project_id': config.GCP_PROJECT_ID,
-    'private_key_id': config.GCP_KEY_ID,
-    'private_key': config.GCP_KEY,
-    'client_email': config.GCP_CLIENT_EMAIL,
-    'client-id': config.GCP_CLIENT_ID,
-    'auth_uri': config.GCP_AUTH_URI,
-    'token_uri': config.GCP_TOKEN_URI,
-    'auth_provider_x509_cert_url': config.GCP_AUTH_PROVIDER_CERT_URL,
-    'client_x509_cert_url': config.GCP_CLIENT_CERT_URL
-}
-# print(credentials_content)
-# credentials_content = json.dumps(credentials_content, indent=4)
 
-creds = config.GCP_CREDS
-creds = json.loads(creds)
-print(creds)
-# creds['private_key'] = creds['private_key'].replace('\\n', '\n')
-
+creds = json.loads(config.GCP_CREDS)
 credentials = service_account.Credentials.from_service_account_info(creds)
-
 storage_client = storage.Client(credentials=credentials)
 
-def upload_blob(source_file_name, destination_blob_name, bucket_name=config.GCP_BUCKET_NAME):
+def upload_blob(filename, bucket_name=config.GCP_BUCKET_NAME):
     """Uploads a file to the bucket."""
     try:
         bucket = storage_client.get_bucket(bucket_name)
-        blob = bucket.blob(destination_blob_name)
-
-        blob.upload_from_filename(source_file_name)
-
-        print('File {} uploaded to {}.'.format(
-            source_file_name,
-            destination_blob_name))
+        blob = bucket.blob(filename)
+        blob.upload_from_filename(filename)
         return True
     except:
         return False
