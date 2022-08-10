@@ -6,18 +6,18 @@ import json
 
 credentials_content = {
     'type': 'service_account',
-    'project_id': str(config.GCP_PROJECT_ID),
-    'private_key_id': str(config.GCP_KEY_ID),
-    'private_key': str(config.GCP_KEY),
-    'client_email': str(config.GCP_CLIENT_EMAIL),
-    'client-id': str(config.GCP_CLIENT_ID),
-    'auth_uri': str(config.GCP_AUTH_URI),
-    'token_uri': str(config.GCP_TOKEN_URI),
-    'auth_provider_x509_cert_url': str(config.GCP_AUTH_PROVIDER_CERT_URL),
-    'client_x509_cert_url': str(config.GCP_CLIENT_CERT_URL)
+    'project_id': config.GCP_PROJECT_ID,
+    'private_key_id': config.GCP_KEY_ID,
+    'private_key': config.GCP_KEY,
+    'client_email': config.GCP_CLIENT_EMAIL,
+    'client-id': config.GCP_CLIENT_ID,
+    'auth_uri': config.GCP_AUTH_URI,
+    'token_uri': config.GCP_TOKEN_URI,
+    'auth_provider_x509_cert_url': config.GCP_AUTH_PROVIDER_CERT_URL,
+    'client_x509_cert_url': config.GCP_CLIENT_CERT_URL
 }
 
-credentials_content = json.dumps(credentials_content, indent=4)
+# credentials_content = json.dumps(credentials_content, indent=4)
 
 credentials = service_account.Credentials.from_service_account_info(credentials_content)
 
