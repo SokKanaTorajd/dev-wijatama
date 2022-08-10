@@ -21,7 +21,7 @@ credentials_content = {
 
 creds = config.GCP_CREDS
 print(creds)
-creds['private_key'] = creds['private_key'].replace('\\n', '\n')
+# creds['private_key'] = creds['private_key'].replace('\\n', '\n')
 
 credentials = service_account.Credentials.from_service_account_info(creds)
 
