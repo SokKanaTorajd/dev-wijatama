@@ -185,7 +185,8 @@ def uploader():
         filename = secure_filename(file.filename)
         print(f'this is filename. {filename}')
         file.save(filename)
-        upload_blob(filename)
+        destination_folder = 'sales-data/'
+        upload_blob(filename, destination_folder)
         return redirect(url_for('upload'))
 
 @app.route('/login-fb')

@@ -9,11 +9,11 @@ creds = json.loads(config.GCP_CREDS)
 credentials = service_account.Credentials.from_service_account_info(creds)
 storage_client = storage.Client(credentials=credentials)
 
-def upload_blob(filename, bucket_name=config.GCP_BUCKET_NAME):
+def upload_blob(filename, dest_folder, bucket_name=config.GCP_BUCKET_NAME):
     """Uploads a file to the bucket."""
     try:
         bucket = storage_client.get_bucket(bucket_name)
-        blob = bucket.blob(filename)
+        blob = bucket.blob(dest_folder + filename)
         blob.upload_from_filename(filename)
         return True
     except:
@@ -24,12 +24,7 @@ def download_blob(source_blob_name, destination_file_name, bucket_name=config.GC
     try:
         bucket = storage_client.get_bucket(bucket_name)
         blob = bucket.blob(source_blob_name)
-
         blob.download_to_filename(destination_file_name)
-
-        print('Blob {} downloaded to {}.'.format(
-            source_blob_name,
-            destination_file_name))
         return True
     except:
         return False
