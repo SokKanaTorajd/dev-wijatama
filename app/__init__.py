@@ -180,13 +180,11 @@ def upload():
 @app.route('/uploader', methods=['GET', 'POST'])
 def uploader():
     if request.method == 'POST':
-        destination = '/sales-data/'
         f = request.files['file']
         filename = secure_filename(f.filename)
         f.save(filename)
-        upload_blob(filename, destination)
+        upload_blob(filename)
         return redirect(url_for('upload'))
-    
 
 @app.route('/login-fb')
 def login_fb():
