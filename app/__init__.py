@@ -22,9 +22,7 @@ ig_post_coll = IG_POSTS_COLL
 
 ## FIXME
 def notif():
-	tanggal = datetime.datetime.today()
-	tanggal = tanggal.strftime("%Y-%m-%d")
-	notifikasi=db.get_notif(tanggal)
+	notifikasi=db.get_notif(session['id'])
 	session['notifikasi'] = notifikasi[0]
 
 
@@ -45,6 +43,7 @@ def index():
                 session['id'] = login_data[0]
                 session['username'] = login_data[1]
                 session['nama_lengkap'] = login_data[3]
+                notif()
                 return redirect(url_for('dashboard_view'))
             
         except TypeError:
@@ -75,6 +74,7 @@ def logout():
 
 @app.route('/dashboard')
 def dashboard_view():
+    notif()
     return render_template('dashboard.html')
 
 @app.route('/data-posting-produk')
