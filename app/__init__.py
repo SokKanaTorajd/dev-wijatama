@@ -213,7 +213,7 @@ def collect_data():
 def start_process():
     if request.method == 'GET':
         start_clustering.delay(session['id'])
-        flash('Proses sedang dilakukan. Silahkan tunggu')
+        flash('Proses sedang dilakukan, silahkan tunggu hingga muncul notifikasi.')
         return redirect(url_for('dashboard_view'))
 
 @app.route('/hasil-rekomendasi')
@@ -222,7 +222,6 @@ def output_clustering():
     files = list_blobs(dest_folder)
     newest = max(files, key=lambda x: x[1])
     filename = newest[0]
-    print(filename)
     contents = download_blob_as_bytes(filename, dest_folder)
     result = pd.read_excel(contents)
 
@@ -230,7 +229,8 @@ def output_clustering():
 
 @app.route('/notifikasi')
 def notify():
-    return render_template('notification.html')
+    notifications = db.get_notif(session['id'])
+    return render_template('notification.html', notifications=notifications)
 
 @app.route('/profil/<id>', methods=['GET', 'POST'])
 def user_profil(id):

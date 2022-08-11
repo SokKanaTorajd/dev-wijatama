@@ -8,9 +8,21 @@
     <h6 class="m-0 font-weight-bold text-primary">Pesan Notifikasi</h6>
   </div>
   <div class="card-body">
+      {% for item in notifications%}
       <div>
-          <p>notification messages will be here.</p>
+          <div>
+            <span>
+              item[0]
+            </span>
+          </div>
+          <div>
+            <span style="font-size:8px">
+              item[1]
+            </span>
+          </div>
+          <hr/>
       </div>
+      {% endfor %}
   </div>
 </div>
 {% endblock main %}
