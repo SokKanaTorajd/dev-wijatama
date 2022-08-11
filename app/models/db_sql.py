@@ -79,9 +79,9 @@ class SQLDatabase():
 
     def get_notif(self, user_id):
         self.open_conn()
-        q = f"SELECT messages, received_at WHERE user='{user_id}'"
+        q = f"SELECT messages, created_at WHERE user='{user_id}'"
         self.cursor.execute(q)
-        notifications = [(message, received_at) for message, received_at in self.cursor.fetchall()]
+        notifications = [(message, created_at) for message, created_at in self.cursor.fetchall()]
         self.close_conn()
         return notifications
     
