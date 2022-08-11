@@ -82,9 +82,10 @@ class SQLDatabase():
     
     def create_notif(self, notif_data):
         self.open_conn()
+        print(notif_data)
         q = "INSERT INTO \
-            notifications (user_id, messages, created_at) \
-            values ('%s', '%s', '%s')"%(notif_data)
+                notifications (user_id, messages, created_at) \
+                values ('%s', '%s', '%s')"%(notif_data)
         self.cursor.execute(q)
         self.db.commit()
         self.close_conn()

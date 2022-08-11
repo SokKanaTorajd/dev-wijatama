@@ -38,7 +38,7 @@ def start_clustering(user_session):
 
     # send notification
     time_now = datetime.datetime.now()
-    messages = 'media insights was succesfully collected.'
+    messages = 'clustering process completed.'
     notif_data = (user_session, messages, time_now)
     
     return send_notif.delay(notif_data)
