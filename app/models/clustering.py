@@ -1,3 +1,4 @@
+from app.cloud_storage.gcp_storage import download_blob_as_bytes, list_blobs, download_blob
 from app.config import IG_POSTS_COLL
 from app.tasks.instagram import mongo
 from app.utils.data_processing import extract_metrics, \
@@ -66,9 +67,20 @@ def process_instagram_data():
     return product_insights
 
 
-def process_sales_data(url):
-    # get sales data
-    sales_df = pd.read_csv(url)
+def process_sales_data():
+    # get sales data from Google Cloud Storage
+    dest_folder = 'sales-data/'
+    files = list_blobs(dest_folder)
+    latest = None
+    for i, file in enumerate(files):
+        try:
+            if files[i][1] < files[i+1][1]:
+                latest = files[i+1]
+        except IndexError:
+            latest = files[i]
+    filename = latest[0]
+    contents = download_blob_as_bytes(filename, dest_folder)
+    sales_df = pd.read_excel(contents)
     sales_df['Produk Dilihat'] = sales_df['Produk Dilihat'].map(casting_int)
     sales_df['Keranjang'] = sales_df['Keranjang'].map(casting_int)
     sales_df['Wishlist'] = sales_df['Wishlist'].map(casting_int)
@@ -101,12 +113,18 @@ def merge_instagram_and_sales(ig_df, sales_df):
     return scaled_df
 
 
-def load_model_cluster(url):
-    model = pickle.load(open(url), "rb")
+def load_model_cluster():
+    # get model from Google Cloud Storage
+    filename = 'model.pickle'
+    dest_folder = 'model/'
+    downloaded_model = download_blob_as_bytes(filename, dest_folder)
+    model = pickle.loads(downloaded_model)
     return model
 
 
 def process_clustering(model, dataframe):
+    # re-scale data
+    scaled_df = data_scaling(dataframe, dataframe.columns)
     # clustering
-    dataframe['cluster'] = model.predict(dataframe)
+    dataframe['cluster'] = model.predict(scaled_df)
     return dataframe
