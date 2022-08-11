@@ -3,8 +3,7 @@ from flask import Flask, render_template, request, \
 from flask_paginate import Pagination, get_page_args
 from werkzeug.utils import secure_filename
 
-from app.cloud_storage.gcp_storage import download_blob, \
-    list_blobs, upload_blob
+from app.cloud_storage.gcp_storage import upload_blob
 from app.config import SECRET_KEY, IG_POSTS_COLL
 from app.models.clustering import process_instagram_data, \
     process_sales_data, merge_instagram_and_sales, \
@@ -187,6 +186,7 @@ def uploader():
         file.save(filename)
         destination_folder = 'sales-data/'
         upload_blob(filename, destination_folder)
+        flash('File berhasil diunggah')
         return redirect(url_for('upload'))
 
 @app.route('/login-fb')
@@ -213,17 +213,14 @@ def collect_data():
 
 @app.route('/hasil-rekomendasi')
 def output_clustering():
-    sales_url = '<get from cloud storage>'
     ig_posts = process_instagram_data()
-    sales_data = process_sales_data(sales_url)
+    sales_data = process_sales_data()
     product_sales_insights = merge_instagram_and_sales(ig_posts, sales_data)
     
-    model_url = '<get from cloud storage>'
-    model = load_model_cluster(model_url)
+    model = load_model_cluster()
     result = process_clustering(model, product_sales_insights)
 
-    return render_template('results.html', sales=sales_data,
-                            instagram=ig_posts, result=result)
+    return render_template('results.html', tables=[result.to_html(classes='data', header="true")])
 
 @app.route('/notifikasi')
 def notify():
