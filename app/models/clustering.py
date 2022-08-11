@@ -122,6 +122,13 @@ def load_model_cluster():
 
 
 def process_clustering(model, dataframe):
+    dataframe = dataframe[
+        [
+            'produk_terjual', 'produk_dilihat', 
+            'keranjang', 'wishlist', 'engagement', 
+            'impressions', 'reach', 'saved'
+        ]
+    ]
     # re-scale data
     scaled_df = data_scaling(dataframe, dataframe.columns)
     # clustering
