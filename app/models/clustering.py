@@ -110,6 +110,7 @@ def merge_instagram_and_sales(ig_df, sales_df):
         product_sales_insights.dropna(inplace=True)
     df_columns = product_sales_insights.columns
     scaled_df = data_scaling(product_sales_insights, df_columns)
+    print(scaled_df)
     return scaled_df
 
 
