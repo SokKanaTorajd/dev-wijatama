@@ -63,7 +63,6 @@ def process_instagram_data():
     df_4 = aggregate_by_product(filtered_metrics, column_targets, 'produk_4')
     product_insights = pd.concat([df_1, df_2, df_3, df_4], ignore_index=True)
     product_insights = product_insights.groupby('produk')[column_targets].sum()
-    print(product_insights)
     return product_insights
 
 
@@ -99,7 +98,7 @@ def process_sales_data():
     # aggregate product sales by 'produk'
     targets = ['produk_terjual', 'produk_dilihat', 'keranjang', 'wishlist']
     sales_df = aggregate_by_product(sales_df, targets, 'produk')
-    print(sales_df)
+    sales_df.set_index('produk')
     return sales_df
 
 
