@@ -100,19 +100,16 @@ def process_sales_data():
     targets = ['produk_terjual', 'produk_dilihat', 'keranjang', 'wishlist']
     sales_df = aggregate_by_product(sales_df, targets, 'produk')
     sales_df = sales_df.set_index('produk')
-    print(sales_df.info())
     return sales_df
 
 
 def merge_instagram_and_sales(ig_df, sales_df):
     # join social media data and sales data
     product_sales_insights = sales_df.join(ig_df)
-    print(product_sales_insights.info())
     # remove NaN value inside entire DataFrame
     if product_sales_insights.isnull().values.any():
         product_sales_insights.dropna(inplace=True)
     df_columns = product_sales_insights.columns
-    print('===============\n',product_sales_insights.info())
     scaled_df = data_scaling(product_sales_insights, df_columns)
     return scaled_df
 
