@@ -228,6 +228,7 @@ def output_clustering():
 
 @app.route('/notifikasi')
 def notify():
+    session['notifikasi'] = 0
     notifications = db.get_notif(session['id'])
     return render_template('notification.html', notifications=notifications)
 
