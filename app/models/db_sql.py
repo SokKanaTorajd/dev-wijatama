@@ -50,7 +50,8 @@ class SQLDatabase():
         self.open_conn()
         q = "INSERT INTO \
             users (username, password, nama_lengkap, email) \
-            values ('%s', '%s', '%s', '%s')"%(user_data)
+            values ('{}', '{}', '{}', '{}')".format(user_data[0], \
+                user_data[1], user_data[2], user_data[3])
         self.cursor.execute(q)
         self.db.commit()
         self.close_conn()
@@ -58,8 +59,9 @@ class SQLDatabase():
     def update_user(self, user_data):
         self.open_conn()
         q = "UPDATE users SET \
-            username='%s', password='%s', nama_lengkap='%s', email='%s' \
-            WHERE id='%s'"%(user_data)
+            username='{}', password='{}', nama_lengkap='{}', email='{}' \
+            WHERE id='{}'".format(user_data[0], user_data[1], \
+                user_data[2], user_data[3], user_data[4])
         self.cursor.execute(q)
         self.db.commit()
         self.close_conn()
@@ -86,14 +88,16 @@ class SQLDatabase():
     def create_notif(self, notif_data):
         self.open_conn()
         print(notif_data)
-        q = "INSERT INTO notifications (user, messages, created_at) values ('%s', '%s', '%s')"%(notif_data)
+        q = "INSERT INTO notifications (user, messages, created_at) \
+            values ('{}', '{}', '{}')".format(notif_data[0], notif_data[1], notif_data[2])
         self.cursor.execute(q)
         self.db.commit()
         self.close_conn()
     
     def update_notif(self, notif_data):
         self.open_conn()
-        q = "UPDATE notifications SET received_at='%s' WHERE user_id='%s'"%(notif_data)
+        q = "UPDATE notifications SET received_at='{}' \
+            WHERE user_id='{}'".format(notif_data[0], notif_data[1])
         self.cursor.execute(q)
         self.db.commit()
         self.close_conn()
