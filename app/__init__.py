@@ -217,7 +217,7 @@ def start_process():
     if request.method == 'GET':
         start_clustering.delay(session['id'])
         flash('Proses sedang dilakukan. Silahkan tunggu')
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard_view'))
 
 @app.route('/hasil-rekomendasi')
 def output_clustering():
