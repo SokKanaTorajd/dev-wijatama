@@ -35,7 +35,8 @@ class SQLDatabase():
         self.close_conn()
         return login_data
     
-    # USER 
+    # USER
+
     def get_user_by_id(self, user_id):
         self.open_conn()
         q = f"SELECT id, username, password, nama_lengkap, email \
@@ -69,9 +70,11 @@ class SQLDatabase():
         self.cursor.execute(q)
         self.db.commit()
         self.close_conn()
+
     # END USER
 
     # NOTIFICATION
+
     def get_notif(self, user_id):
         self.open_conn()
         q = f"SELECT messages, received_at WHERE user_id='{user_id}'"
@@ -83,18 +86,16 @@ class SQLDatabase():
     def create_notif(self, notif_data):
         self.open_conn()
         print(notif_data)
-        q = "INSERT INTO \
-                notifications (user_id, messages, created_at) \
-                values ('%s', '%s', '%s')"%(notif_data)
+        q = "INSERT INTO notifications (user_id, messages, created_at) values ('%s', '%s', '%s')"%(notif_data)
         self.cursor.execute(q)
         self.db.commit()
         self.close_conn()
     
     def update_notif(self, notif_data):
         self.open_conn()
-        q = "UPDATE notifications SET \
-            received_at='%s' WHERE user_id='%s'"%(notif_data)
+        q = "UPDATE notifications SET received_at='%s' WHERE user_id='%s'"%(notif_data)
         self.cursor.execute(q)
         self.db.commit()
         self.close_conn()
+
     # END NOTIFICATION
