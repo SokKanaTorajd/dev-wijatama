@@ -1,4 +1,3 @@
-from turtle import pd
 from flask import Flask, render_template, request, \
     redirect, url_for, session, flash
 from flask_paginate import Pagination, get_page_args
