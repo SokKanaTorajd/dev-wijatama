@@ -23,7 +23,7 @@ def process_instagram_data():
 
     # get instagram media insights from mongodb
     insight_query = {'data': 1, 'id': 1}
-    media_insights = mongo.getAllDocument(IG_POSTS_COLL, insight_query)
+    media_insights = mongo.getAllDocument('media-insights', insight_query)
 
     # create dataframe
     posts_df = pd.DataFrame(ig_posts, columns=['id', 'media_type', 'timestamp', 'produk_1', 'produk_2', 'produk_3', 'produk_4'])
