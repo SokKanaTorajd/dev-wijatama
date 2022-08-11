@@ -78,5 +78,4 @@ def casting_int(x):
 
 def data_scaling(df, col_name_list):
     df[col_name_list] = scaler.fit_transform(df[col_name_list])
-    print(df)
     return df
