@@ -25,7 +25,7 @@ def start_clustering(user_session):
     writer = ExcelWriter(output)
     result.to_excel(writer)
     writer.save()
-    xlsx_data = writer.getvalue()
+    xlsx_data = output.getvalue()
     now = datetime.datetime.now()
     default_filename = 'Hasil_Rekomendasi_'
     t = now.strftime("%d-%m-%Y-%H:%M:%S")
