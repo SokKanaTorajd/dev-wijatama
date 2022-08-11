@@ -212,9 +212,9 @@ def collect_data():
         get_insights.delay(session['id'], token['user_access_token'])
         return render_template('collect-data.html')
 
-@app.route('/start-process', methods=['POST'])
+@app.route('/start-process', methods=['GET'])
 def start_process():
-    if request.method == 'POST':
+    if request.method == 'GET':
         start_clustering.delay(session['id'])
         flash('Proses sedang dilakukan. Silahkan tunggu')
         return redirect(url_for('dashboard'))
