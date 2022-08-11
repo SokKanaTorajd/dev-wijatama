@@ -19,24 +19,27 @@ def upload_blob(filename, dest_folder, bucket_name=config.GCP_BUCKET_NAME):
     except:
         return False
 
-def download_blob(source_blob_name, destination_file_name, bucket_name=config.GCP_BUCKET_NAME):
-    """Downloads a blob from the bucket."""
+def download_blob_as_bytes(filename, dest_folder, bucket_name=config.GCP_BUCKET_NAME):
+    """Downloads a blob as bytes from the bucket."""
     try:
         bucket = storage_client.get_bucket(bucket_name)
-        blob = bucket.blob(source_blob_name)
-        blob.download_to_filename(destination_file_name)
-        return True
+        blob = bucket.blob(dest_folder+filename)
+        contents = blob.download_as_bytes()
+        return contents
     except:
         return False
 
-def list_blobs(parent="", bucket_name = "checkma"):
+def list_blobs(prefix, bucket_name=config.GCP_BUCKET_NAME):
     """Lists all the blobs in the bucket."""
     try:
         # Note: Client.list_blobs requires at least package version 1.17.0.
-        blobs = storage_client.list_blobs(bucket_name, prefix=parent)
+        blobs = storage_client.list_blobs(bucket_name, prefix=prefix)
         listData = []
         for blob in blobs:
-            listData.append(blob.name.replace(parent, ""))
+            filename = blob.name.replace(prefix, "")
+            if filename != '':
+                data = (filename, blob.time_created)
+                listData.append(data)
         return listData
     except:
         return False
