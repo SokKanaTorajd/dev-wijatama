@@ -42,7 +42,6 @@ def process_instagram_data():
         'id', 'engagement', 'impressions', 'reach', 
         'saved', 'plays', 'shares', 'total_interactions'
     ]
-    print(filtered_metrics.info())
     extracted_insights = extract_metrics(filtered_metrics)
     counted_metrics = pd.DataFrame(extracted_insights, columns=columns_name)
 
@@ -109,7 +108,7 @@ def merge_instagram_and_sales(ig_df, sales_df):
     # remove NaN value inside entire DataFrame
     if product_sales_insights.isnull().values.any():
         product_sales_insights.dropna(inplace=True)
-    df_columns = product_sales_insights.columns.value
+    df_columns = product_sales_insights.columns
     scaled_df = data_scaling(product_sales_insights, df_columns)
     return scaled_df
 

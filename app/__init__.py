@@ -181,9 +181,7 @@ def upload():
 def uploader():
     if request.method == 'POST':
         file = request.files['file']
-        print(f'this is f. {file}')
         filename = secure_filename(file.filename)
-        print(f'this is filename. {filename}')
         file.save(filename)
         destination_folder = 'sales-data/'
         upload_blob_from_filename(filename, destination_folder)

@@ -8,7 +8,6 @@ scaler = MinMaxScaler()
 def extract_metrics(df):
     extracted_insights = []
     for i, insight in enumerate(df['data']):
-        print(insight)
         if type(insight)!=list:
             insight = ast.literal_eval(insight)
         

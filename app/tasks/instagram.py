@@ -47,7 +47,6 @@ def get_insights(user_session, access_token):
     # get media_id(s)
     ig_posts = api.get_igMedias()
     print('ig post was succesfully collected')
-    print(ig_posts)
     posts_data = {
         'posts': ig_posts
     }
