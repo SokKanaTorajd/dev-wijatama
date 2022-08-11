@@ -23,7 +23,7 @@ ig_post_coll = IG_POSTS_COLL
 ## FIXME
 def notif():
 	notifikasi=db.get_notif(session['id'])
-	session['notifikasi'] = notifikasi[0]
+	session['notifikasi'] = len(notifikasi)
 
 
 @app.errorhandler(404)
@@ -74,7 +74,6 @@ def logout():
 
 @app.route('/dashboard')
 def dashboard_view():
-    notif()
     return render_template('dashboard.html')
 
 @app.route('/data-posting-produk')
