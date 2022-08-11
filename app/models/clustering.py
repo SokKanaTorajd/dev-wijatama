@@ -69,16 +69,8 @@ def process_sales_data():
     # get sales data from Google Cloud Storage
     dest_folder = 'sales-data/'
     files = list_blobs(dest_folder)
-    latest = None
-    for i, file in enumerate(files):
-        try:
-            ts_prev = files[i][1].timestamp()
-            ts_after = files[i+1][1].timestamp()
-            if ts_prev < ts_after:
-                latest = files[i+1]
-        except IndexError:
-            latest = files[i]
-    filename = latest[0]
+    newest = max(files, key=lambda x: x[1])
+    filename = newest[0]
     contents = download_blob_as_bytes(filename, dest_folder)
     sales_df = pd.read_excel(contents)
     sales_df['Produk Dilihat'] = sales_df['Produk Dilihat'].map(casting_int)

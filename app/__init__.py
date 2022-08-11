@@ -220,17 +220,8 @@ def start_process():
 def output_clustering():
     dest_folder = 'clustering-results/'
     files = list_blobs(dest_folder)
-    latest = None
-    for i, file in enumerate(files):
-        try:
-            # get files timestamp
-            ts_prev = files[i][1].timestamp()
-            ts_after = files[i+1][1].timestamp()
-            if ts_prev < ts_after:
-                latest = files[i+1]
-        except IndexError:
-            latest = files[i]
-    filename = latest[0]
+    newest = max(files, key=lambda x: x[1])
+    filename = newest[0]
     print(filename)
     contents = download_blob_as_bytes(filename, dest_folder)
     result = pd.read_excel(contents)
