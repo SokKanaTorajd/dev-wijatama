@@ -212,7 +212,7 @@ def collect_data():
         get_insights.delay(session['id'], token['user_access_token'])
         return render_template('collect-data.html')
 
-@app.route('start-process', methods=['POST'])
+@app.route('/start-process', methods=['POST'])
 def start_process():
     if request.method == 'POST':
         start_clustering.delay(session['id'])
