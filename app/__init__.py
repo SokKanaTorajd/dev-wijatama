@@ -1,18 +1,18 @@
+from turtle import pd
 from flask import Flask, render_template, request, \
     redirect, url_for, session, flash
 from flask_paginate import Pagination, get_page_args
 from werkzeug.utils import secure_filename
 
-from app.cloud_storage.gcp_storage import upload_blob_from_filename
+from app.cloud_storage.gcp_storage import upload_blob_from_filename, \
+    download_blob_as_bytes, list_blobs
 from app.config import SECRET_KEY, IG_POSTS_COLL
-from app.models.clustering import process_instagram_data, \
-    process_sales_data, merge_instagram_and_sales, \
-    process_clustering, load_model_cluster
 from app.tasks.clustering import start_clustering
 from app.tasks.instagram import mongo, get_insights
 from app.tasks.notification import db
 from app.utils.set_pagination import set_offset
 
+import pandas as pd
 import datetime
 
 
@@ -219,12 +219,18 @@ def start_process():
 
 @app.route('/hasil-rekomendasi')
 def output_clustering():
-    ig_posts = process_instagram_data()
-    sales_data = process_sales_data()
-    product_sales_insights = merge_instagram_and_sales(ig_posts, sales_data)
-    
-    model = load_model_cluster()
-    result = process_clustering(model, product_sales_insights)
+    dest_folder = 'clustering-results/'
+    files = list_blobs(dest_folder)
+    latest = None
+    for i, file in enumerate(files):
+        try:
+            if files[i][1] < files[i+1][1]:
+                latest = files[i+1]
+        except IndexError:
+            latest = files[i]
+    filename = latest[0]
+    contents = download_blob_as_bytes(filename, dest_folder)
+    result = pd.read_excel(contents)
 
     return render_template('results.html', tables=[result.to_html(classes='data', header="true")])
 
