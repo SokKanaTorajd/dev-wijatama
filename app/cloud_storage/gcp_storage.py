@@ -9,12 +9,22 @@ creds = json.loads(config.GCP_CREDS)
 credentials = service_account.Credentials.from_service_account_info(creds)
 storage_client = storage.Client(credentials=credentials)
 
-def upload_blob(filename, dest_folder, bucket_name=config.GCP_BUCKET_NAME):
+def upload_blob_from_filename(filename, dest_folder, bucket_name=config.GCP_BUCKET_NAME):
     """Uploads a file to the bucket."""
     try:
         bucket = storage_client.get_bucket(bucket_name)
         blob = bucket.blob(dest_folder + filename)
         blob.upload_from_filename(filename)
+        return True
+    except:
+        return False
+
+def upload_blob_from_string(filename, dest_folder, file_type, bucket_name=config.GCP_BUCKET_NAME, ):
+    """Uploads a file to the bucket with string or bytes format"""
+    try:
+        bucket = storage_client.get_bucket(bucket_name)
+        blob = bucket.blob(dest_folder+filename)
+        blob.upload_from_string(filename, file_type)
         return True
     except:
         return False
