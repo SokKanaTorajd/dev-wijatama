@@ -223,7 +223,10 @@ def output_clustering():
     latest = None
     for i, file in enumerate(files):
         try:
-            if files[i][1] < files[i+1][1]:
+            # get files timestamp
+            ts_prev = files[i][1].timestamp()
+            ts_after = files[i+1][1].timestamp()
+            if ts_prev < ts_after:
                 latest = files[i+1]
         except IndexError:
             latest = files[i]

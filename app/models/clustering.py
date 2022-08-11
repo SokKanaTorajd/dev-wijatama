@@ -72,7 +72,9 @@ def process_sales_data():
     latest = None
     for i, file in enumerate(files):
         try:
-            if files[i][1] < files[i+1][1]:
+            ts_prev = files[i][1].timestamp()
+            ts_after = files[i+1][1].timestamp()
+            if ts_prev < ts_after:
                 latest = files[i+1]
         except IndexError:
             latest = files[i]
