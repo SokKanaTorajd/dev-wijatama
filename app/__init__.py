@@ -3,11 +3,12 @@ from flask import Flask, render_template, request, \
 from flask_paginate import Pagination, get_page_args
 from werkzeug.utils import secure_filename
 
-from app.cloud_storage.gcp_storage import upload_blob
+from app.cloud_storage.gcp_storage import upload_blob_from_filename
 from app.config import SECRET_KEY, IG_POSTS_COLL
 from app.models.clustering import process_instagram_data, \
     process_sales_data, merge_instagram_and_sales, \
     process_clustering, load_model_cluster
+from app.tasks.clustering import start_clustering
 from app.tasks.instagram import mongo, get_insights
 from app.tasks.notification import db
 from app.utils.set_pagination import set_offset
@@ -185,7 +186,7 @@ def uploader():
         print(f'this is filename. {filename}')
         file.save(filename)
         destination_folder = 'sales-data/'
-        upload_blob(filename, destination_folder)
+        upload_blob_from_filename(filename, destination_folder)
         flash('File berhasil diunggah')
         return redirect(url_for('upload'))
 
@@ -210,6 +211,13 @@ def collect_data():
         token = mongo.getToken()
         get_insights.delay(session['id'], token['user_access_token'])
         return render_template('collect-data.html')
+
+@app.route('start-process', methods=['POST'])
+def start_process():
+    if request.method == 'POST':
+        start_clustering.delay(session['id'])
+        flash('Proses sedang dilakukan. Silahkan tunggu')
+        return redirect(url_for('dashboard'))
 
 @app.route('/hasil-rekomendasi')
 def output_clustering():
