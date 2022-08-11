@@ -42,6 +42,7 @@ def process_instagram_data():
         'id', 'engagement', 'impressions', 'reach', 
         'saved', 'plays', 'shares', 'total_interactions'
     ]
+    print(filtered_metrics.info())
     extracted_insights = extract_metrics(filtered_metrics)
     counted_metrics = pd.DataFrame(extracted_insights, columns=columns_name)
 
