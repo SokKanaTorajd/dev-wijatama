@@ -228,6 +228,7 @@ def output_clustering():
         except IndexError:
             latest = files[i]
     filename = latest[0]
+    print(filename)
     contents = download_blob_as_bytes(filename, dest_folder)
     result = pd.read_excel(contents)
 
