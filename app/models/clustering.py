@@ -1,6 +1,4 @@
-from numpy import product
 from app.cloud_storage.gcp_storage import download_blob_as_bytes, list_blobs
-from app.config import IG_POSTS_COLL
 from app.tasks.instagram import mongo
 from app.utils.data_processing import extract_metrics, \
     aggregate_by_product, casting_int, data_scaling
