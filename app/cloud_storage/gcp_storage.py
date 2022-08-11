@@ -23,7 +23,7 @@ def upload_blob_from_string(filename, dest_folder, file_type, bucket_name=config
     """Uploads a file to the bucket with string or bytes format"""
     try:
         bucket = storage_client.get_bucket(bucket_name)
-        blob = bucket.blob(dest_folder+filename)
+        blob = bucket.blob(dest_folder)
         blob.upload_from_string(filename, file_type)
         return True
     except:
