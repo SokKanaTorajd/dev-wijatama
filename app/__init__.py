@@ -226,11 +226,16 @@ def output_clustering():
 
     return render_template('results.html', tables=[result.to_html(classes='data', header="true")])
 
-@app.route('/notifikasi')
+@app.route('/notifikasi', methods=['GET', 'POST'])
 def notify():
-    session['notifikasi'] = 0
-    notifications = db.get_notif(session['id'])
-    return render_template('notification.html', notifications=notifications)
+    if request.method == 'GET':
+        session['notifikasi'] = 0
+        notifications = db.get_notif(session['id'])
+        notifications = sorted(notifications, key=lambda x: x[1])
+        return render_template('notification.html', notifications=notifications)
+
+    if request.method == 'POST':
+        return redirect(url_for('notify'))
 
 @app.route('/profil/<id>', methods=['GET', 'POST'])
 def user_profil(id):
