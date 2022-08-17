@@ -5,7 +5,8 @@
 {% block main %}
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Pesan Notifikasi</h6>
+    <h6 class="m-0 font-weight-bold text-primary float-left">Pesan Notifikasi</h6>
+    <a class="btn btn-outline-info float-right" href="#">Mark  All as Read</a>
   </div>
   <div class="card-body">
       {% for item in notifications %}
@@ -20,6 +21,7 @@
               {{ item[1] }}
             </span>
           </div>
+          <a class="btn btn-outline-info btn-sm float-right" href="#">Mark as Read</a>
           <hr/>
       </div>
       {% endfor %}
