@@ -231,7 +231,7 @@ def notify():
     if request.method == 'GET':
         session['notifikasi'] = 0
         notifications = db.get_notif(session['id'])
-        notifications = sorted(notifications, key=lambda x: x[1])
+        notifications = sorted(notifications, key=lambda x: x[1], reverse=True)
         return render_template('notification.html', notifications=notifications)
 
     if request.method == 'POST':
