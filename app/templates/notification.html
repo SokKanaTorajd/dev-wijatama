@@ -16,7 +16,12 @@
               {{ item[1] }}
             </span>
             {% if not item[3] %}
-              <a class="btn btn-outline-info btn-sm float-right" href="{{ url_for('mark_as_read', id=item[0]) }}">Mark as Read</a>
+              <a 
+                  class="btn btn-outline-info btn-sm float-right" 
+                  href="{{ url_for('mark_as_read', id=item[0]) }}"
+                  formmethod="post">
+                Mark as Read
+              </a>
             {% endif %}
             <div>
               <span style="font-size:10px">
