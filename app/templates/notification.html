@@ -6,8 +6,10 @@
 <div class="card shadow mb-4">
   <div class="card-header py-3">
     <h6 class="m-0 font-weight-bold text-primary float-left">Pesan Notifikasi</h6>
-    <a class="btn btn-outline-info float-right" href="/notifikasi">Mark  All as Read</a>
-  </div>
+    <form action="/notifikasi" method="POST">
+      <button class="btn btn-outline-info float-right" type="submit">Mark  All as Read</button>
+    </form>
+    </div>
   <div class="card-body">
       {% for item in notifications %}
       <div>
