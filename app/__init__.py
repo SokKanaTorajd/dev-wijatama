@@ -20,10 +20,9 @@ app.secret_key = SECRET_KEY
 
 ig_post_coll = IG_POSTS_COLL
 
-## FIXME
 def notif():
     notifikasi=db.get_notif(session['id'])
-    n = sum(map(lambda x: x[3]!=False, notifikasi))
+    n = sum(map(lambda x: x[3]!=True, notifikasi))
     session['notifikasi'] = n
 
 
