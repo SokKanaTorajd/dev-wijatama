@@ -240,9 +240,9 @@ def notify():
         db.read_all_notif(notif_data)
         return redirect(url_for('notify'))
 
-@app.route('/notifikasi/<id>', methods=['POST'])
+@app.route('/notifikasi/<id>', methods=['GET'])
 def mark_as_read(id):
-    if request.method == 'POST':
+    if request.method == 'GET':
         time_now = datetime.datetime.now()
         notif_data = (time_now, id, session['id'])
         db.update_notif(notif_data)
