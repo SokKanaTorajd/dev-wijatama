@@ -22,8 +22,9 @@ ig_post_coll = IG_POSTS_COLL
 
 ## FIXME
 def notif():
-	notifikasi=db.get_notif(session['id'])
-	session['notifikasi'] = len(notifikasi)
+    notifikasi=db.get_notif(session['id'])
+    n = sum(map(lambda x: x[3]!=False, notifikasi))
+    session['notifikasi'] = n
 
 
 @app.errorhandler(404)
@@ -229,7 +230,6 @@ def output_clustering():
 @app.route('/notifikasi', methods=['GET', 'POST'])
 def notify():
     if request.method == 'GET':
-        session['notifikasi'] = 0
         notifications = db.get_notif(session['id'])
         notifications = sorted(notifications, key=lambda x: x[2], reverse=True)
         return render_template('notification.html', notifications=notifications)
