@@ -15,7 +15,7 @@
             <span>
               {{ item[1] }}
             </span>
-            <a class="btn btn-outline-info btn-sm float-right" href="{{ url_for(mark_as_read, id=item[0]) }}">Mark as Read</a>
+            <a class="btn btn-outline-info btn-sm float-right" href="{{ url_for('mark_as_read', id=item[0]) }}">Mark as Read</a>
             <div>
               <span style="font-size:10px">
                 {{ item[2] }}
