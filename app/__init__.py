@@ -231,10 +231,21 @@ def notify():
     if request.method == 'GET':
         session['notifikasi'] = 0
         notifications = db.get_notif(session['id'])
-        notifications = sorted(notifications, key=lambda x: x[1], reverse=True)
+        notifications = sorted(notifications, key=lambda x: x[2], reverse=True)
         return render_template('notification.html', notifications=notifications)
 
     if request.method == 'POST':
+        time_now = datetime.datetime.now()
+        notif_data = (time_now, session['id'])
+        db.read_all_notif(notif_data)
+        return redirect(url_for('notify'))
+
+@app.route('/notifikasi/<id>', methods=['POST'])
+def mark_as_read(id):
+    if request.method == 'POST':
+        time_now = datetime.datetime.now()
+        notif_data = (time_now, id, session['id'])
+        db.update_notif(notif_data)
         return redirect(url_for('notify'))
 
 @app.route('/profil/<id>', methods=['GET', 'POST'])

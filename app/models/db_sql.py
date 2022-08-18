@@ -79,10 +79,10 @@ class SQLDatabase():
 
     def get_notif(self, user_id):
         self.open_conn()
-        q = f"SELECT message, created_at FROM notifications \
-            WHERE user='{user_id} ORDER BY created_at DESC LIMIT 5'"
+        q = f"SELECT id, message, created_at FROM notifications \
+            WHERE user='{user_id}' ORDER BY created_at DESC LIMIT 5"
         self.cursor.execute(q)
-        notifications = [(message, created_at) for message, created_at in self.cursor.fetchall()]
+        notifications = [(id, message, created_at) for message, created_at in self.cursor.fetchall()]
         self.close_conn()
         return notifications
     
@@ -95,6 +95,14 @@ class SQLDatabase():
         self.close_conn()
     
     def update_notif(self, notif_data):
+        self.open_conn()
+        q = "UPDATE notifications SET updated_at='{}', is_read=true \
+            WHERE id='{}' AND user='{}' AND is_read=false".format(notif_data[0], notif_data[1], notif_data[2])
+        self.cursor.execute(q)
+        self.db.commit()
+        self.close_conn()
+    
+    def read_all_notif(self, notif_data):
         self.open_conn()
         q = "UPDATE notifications SET updated_at='{}', is_read=true \
             WHERE user='{}' AND is_read=false".format(notif_data[0], notif_data[1])
