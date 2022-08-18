@@ -229,6 +229,7 @@ def output_clustering():
 @app.route('/notifikasi', methods=['GET', 'POST'])
 def notify():
     if request.method == 'GET':
+        notify()
         notifications = db.get_notif(session['id'])
         notifications = sorted(notifications, key=lambda x: x[2], reverse=True)
         return render_template('notification.html', notifications=notifications)
