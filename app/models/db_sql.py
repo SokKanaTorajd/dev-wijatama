@@ -82,7 +82,7 @@ class SQLDatabase():
         q = f"SELECT id, message, created_at FROM notifications \
             WHERE user='{user_id}' ORDER BY created_at DESC LIMIT 5"
         self.cursor.execute(q)
-        notifications = [(id, message, created_at) for message, created_at in self.cursor.fetchall()]
+        notifications = [(id, message, created_at) for id, message, created_at in self.cursor.fetchall()]
         self.close_conn()
         return notifications
     
