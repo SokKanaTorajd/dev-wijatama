@@ -101,9 +101,7 @@ def merge_instagram_and_sales(ig_df, sales_df):
     # remove NaN value inside entire DataFrame
     if product_sales_insights.isnull().values.any():
         product_sales_insights.dropna(inplace=True)
-    df_columns = product_sales_insights.columns
-    scaled_df = data_scaling(product_sales_insights, df_columns)
-    return scaled_df
+    return product_sales_insights
 
 
 def load_model_cluster():
