@@ -222,9 +222,20 @@ def output_clustering():
     newest = max(files, key=lambda x: x[1])
     filename = newest[0]
     contents = download_blob_as_bytes(filename, dest_folder)
-    result = pd.read_excel(contents)
+    results = pd.read_excel(contents)
+    data = results.values.tolist()
 
-    return render_template('results.html', tables=[result.to_html(classes='data', header="true")])
+    page, per_page, offset = get_page_args(page_parameter='page',
+                                           per_page_parameter='per_page')
+    total = len(data)
+    pagination_data = set_offset(data, offset=offset, per_page=per_page)
+    pagination = Pagination(page=page, per_page=per_page, total=total,
+                            css_framework='bootstrap4')
+    
+    return render_template('results.html', data=pagination_data,
+                            pagination=pagination, page=page, per_page=per_page,)
+
+    # return render_template('results.html', tables=[results.to_html(classes='data', header="true")])
 
 @app.route('/notifikasi', methods=['GET', 'POST'])
 def notify():
