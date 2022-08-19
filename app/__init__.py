@@ -38,10 +38,10 @@ def index():
             login_data = db.login(username, password)
             
             if username==login_data[1] and password==login_data[2]:
-                session['id'] = login_data[0]
+                # session['id'] = login_data[0]
                 session['username'] = login_data[1]
                 session['nama_lengkap'] = login_data[3]
-                notif()
+                # notif()
                 return redirect(url_for('dashboard_view'))
             
         except TypeError:
@@ -49,7 +49,7 @@ def index():
             return render_template('index.html', error=error)
 
     if request.method == 'GET':
-        notif()
+        #notif()
         return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -73,7 +73,7 @@ def logout():
 
 @app.route('/dashboard')
 def dashboard_view():
-    notif()
+    #notif()
     return render_template('dashboard.html')
 
 @app.route('/data-posting-produk')
@@ -113,7 +113,7 @@ def instagram_post_data():
     pagination_data = set_offset(data, offset=offset, per_page=per_page)
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='bootstrap4')
-    notif()
+    #notif()
     return render_template('data-posting-produk.html', data=pagination_data,
                             pagination=pagination, page=page, per_page=per_page,)
 
@@ -145,7 +145,7 @@ def update_instagram_post(id):
         except KeyError:
             produk_4 = ''
         
-        notif()
+        #notif()
         return render_template('update-data-posting-produk.html', id=id, 
                                 permalink=permalink, produk_1=produk_1, 
                                 produk_2=produk_2, produk_3=produk_3,
@@ -176,7 +176,7 @@ def delete_post_data(id):
 
 @app.route('/unggah-data')
 def upload():
-    notif()
+    #notif()
     return render_template('upload.html')
 
 @app.route('/uploader', methods=['GET', 'POST'])
@@ -192,7 +192,7 @@ def uploader():
 
 @app.route('/login-fb')
 def login_fb():
-    notif()
+    #notif()
     return render_template('login-fb.html')
 
 @app.route('/collect-data', methods=['GET','POST'])
@@ -238,14 +238,14 @@ def output_clustering():
     pagination_data = set_offset(data, offset=offset, per_page=per_page)
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='bootstrap4')
-    notif()
+    #notif()
     return render_template('results.html', products=products, data=pagination_data,
                             pagination=pagination, page=page, per_page=per_page)
 
 @app.route('/notifikasi', methods=['GET', 'POST'])
 def notify():
     if request.method == 'GET':
-        notif()
+        #notif()
         notifications = db.get_notif(session['id'])
         notifications = sorted(notifications, key=lambda x: x[2], reverse=True)
         return render_template('notification.html', notifications=notifications)
@@ -268,7 +268,7 @@ def mark_as_read(id):
 def user_profil(id):
     if request.method == 'GET':
         user_data = db.get_user_by_id(id)
-        notif()
+        #notif()
         return render_template('profil.html', id=user_data[0], username=user_data[1], 
                                 password=user_data[2], nama_lengkap=user_data[3],
                                 email=user_data[4])
