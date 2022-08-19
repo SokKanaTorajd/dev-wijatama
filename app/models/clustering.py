@@ -116,7 +116,8 @@ def load_model_cluster():
 
 
 def process_clustering(model, dataframe):
-    dataframe = dataframe[
+    copied_df = dataframe.copy()
+    copied_df = copied_df[
         [
             'produk_terjual', 'produk_dilihat', 
             'keranjang', 'wishlist', 'engagement', 
@@ -124,7 +125,7 @@ def process_clustering(model, dataframe):
         ]
     ]
     # re-scale data
-    scaled_df = data_scaling(dataframe, dataframe.columns)
+    scaled_df = data_scaling(copied_df, copied_df.columns)
     # clustering
     dataframe['cluster'] = model.predict(scaled_df)
     return dataframe
