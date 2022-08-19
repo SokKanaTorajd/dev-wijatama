@@ -13,6 +13,7 @@ def upload_blob_from_filename(filename, dest_folder, bucket_name=config.GCP_BUCK
     """Uploads a file to the bucket."""
     try:
         bucket = storage_client.get_bucket(bucket_name)
+        print(dest_folder + filename)
         blob = bucket.blob(dest_folder + filename)
         blob.upload_from_filename(filename)
         return True
