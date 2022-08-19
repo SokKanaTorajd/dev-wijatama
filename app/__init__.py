@@ -51,7 +51,7 @@ def index():
             return render_template('index.html', error=error)
 
     if request.method == 'GET':
-        notif()
+        notif(session['id'])
         return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
