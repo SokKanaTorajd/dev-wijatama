@@ -231,6 +231,8 @@ def output_clustering():
     contents = download_blob_as_bytes(filename, dest_folder)
     results = pd.read_excel(contents)
     data = results.values.tolist()
+    filtered_cluster = results[results['cluster']==0]
+    products = list(filtered_cluster)
 
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
@@ -239,8 +241,8 @@ def output_clustering():
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='bootstrap4')
     notif()
-    return render_template('results.html', data=pagination_data,
-                            pagination=pagination, page=page, per_page=per_page,)
+    return render_template('results.html', products=products, data=pagination_data,
+                            pagination=pagination, page=page, per_page=per_page)
 
     # return render_template('results.html', tables=[results.to_html(classes='data', header="true")])
 
