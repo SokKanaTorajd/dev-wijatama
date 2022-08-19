@@ -9,7 +9,6 @@ from app.config import SECRET_KEY, IG_POSTS_COLL
 from app.tasks.clustering import start_clustering
 from app.tasks.instagram import mongo, get_insights
 from app.tasks.notification import db
-# from app.utils.notifications import notif
 from app.utils.set_pagination import set_offset
 
 import pandas as pd
@@ -21,8 +20,8 @@ app.secret_key = SECRET_KEY
 
 ig_post_coll = IG_POSTS_COLL
 
-def notif():
-    notifikasi=db.get_notif(session['id'])
+def notif(id):
+    notifikasi=db.get_notif(id)
     n = sum(map(lambda x: x[3]!=True, notifikasi))
     session['notifikasi'] = n
 
@@ -44,7 +43,7 @@ def index():
                 session['id'] = login_data[0]
                 session['username'] = login_data[1]
                 session['nama_lengkap'] = login_data[3]
-                notif()
+                notif(session['id'])
                 return redirect(url_for('dashboard_view'))
             
         except TypeError:
@@ -76,7 +75,7 @@ def logout():
 
 @app.route('/dashboard')
 def dashboard_view():
-    notif()
+    notif(session['id'])
     return render_template('dashboard.html')
 
 @app.route('/data-posting-produk')
@@ -116,7 +115,7 @@ def instagram_post_data():
     pagination_data = set_offset(data, offset=offset, per_page=per_page)
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='bootstrap4')
-    notif()
+    notif(session['id'])
     return render_template('data-posting-produk.html', data=pagination_data,
                             pagination=pagination, page=page, per_page=per_page,)
 
@@ -148,7 +147,7 @@ def update_instagram_post(id):
         except KeyError:
             produk_4 = ''
         
-        notif()
+        notif(session['id'])
         return render_template('update-data-posting-produk.html', id=id, 
                                 permalink=permalink, produk_1=produk_1, 
                                 produk_2=produk_2, produk_3=produk_3,
@@ -179,7 +178,7 @@ def delete_post_data(id):
 
 @app.route('/unggah-data')
 def upload():
-    notif()
+    notif(session['id'])
     return render_template('upload.html')
 
 @app.route('/uploader', methods=['GET', 'POST'])
@@ -195,7 +194,7 @@ def uploader():
 
 @app.route('/login-fb')
 def login_fb():
-    notif()
+    notif(session['id'])
     return render_template('login-fb.html')
 
 @app.route('/collect-data', methods=['GET','POST'])
@@ -241,14 +240,14 @@ def output_clustering():
     pagination_data = set_offset(data, offset=offset, per_page=per_page)
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='bootstrap4')
-    notif()
+    notif(session['id'])
     return render_template('results.html', products=products, data=pagination_data,
                             pagination=pagination, page=page, per_page=per_page)
 
 @app.route('/notifikasi', methods=['GET', 'POST'])
 def notify():
     if request.method == 'GET':
-        notif()
+        notif(session['id'])
         notifications = db.get_notif(session['id'])
         notifications = sorted(notifications, key=lambda x: x[2], reverse=True)
         return render_template('notification.html', notifications=notifications)
@@ -271,7 +270,7 @@ def mark_as_read(id):
 def user_profil(id):
     if request.method == 'GET':
         user_data = db.get_user_by_id(id)
-        notif()
+        notif(session['id'])
         return render_template('profil.html', id=user_data[0], username=user_data[1], 
                                 password=user_data[2], nama_lengkap=user_data[3],
                                 email=user_data[4])
