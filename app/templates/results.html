@@ -1,0 +1,64 @@
+{% extends './layout/layout.html' %}
+{% block title %} Hasil Rekomendasi Promosi Produk Maula Hijab {% endblock %}
+
+{% block main %}
+<div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Hasil Rekomendasi</h6>
+        </div>
+        <div class="card-body">
+            {{ pagination.links }}
+            <div class="table-responsive">
+                <table class="table table-hover" width="100%" cellspacing="0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Produk</th>
+                            <th scope="col">Produk Terjual</th>
+                            <th scope="col">Produk Dilihat</th>
+                            <th scope="col">Keranjang</th>
+                            <th scope="col">Wishlist</th>
+                            <th scope="col">Engagement</th>
+                            <th scope="col">Impressions</th>
+                            <th scope="col">Reach</th>
+                            <th scope="col">Saved</th>
+                            <th scope="col">Cluster</th>
+                        </tr>
+                    </thead>
+                    {% for elem in data %}
+                        <tbody>
+                            <tr>
+                                <td>{{ loop.index + (page - 1) * per_page }}</td>
+                                <td>{{ elem[0] }}</td>
+                                <td>{{ elem[1] }}</td>
+                                <td>{{ elem[2] }}</td>
+                                <td>{{ elem[3] }}</td>
+                                <td>{{ elem[4] }}</td>
+                                <td>{{ elem[5] }}</td>
+                                <td>{{ elem[6] }}</td>
+                                <td>{{ elem[7] }}</td>
+                                <td>{{ elem[8] }}</td>
+                                <td>{{ elem[9] }}</td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+            {{ pagination.links }}
+        </div>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Hasil Rekomendasi</h6>
+        </div>
+        <div class="card-body">
+            <ul>
+                {% for product in products %}
+                    <li>{{ product }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock main %}
