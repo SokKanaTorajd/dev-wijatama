@@ -232,7 +232,7 @@ def output_clustering():
     results = pd.read_excel(contents)
     data = results.values.tolist()
     filtered_cluster = results[results['cluster']==0]
-    products = list(filtered_cluster)
+    products = list(filtered_cluster.index)
 
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
