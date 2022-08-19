@@ -9,7 +9,7 @@ from app.config import SECRET_KEY, IG_POSTS_COLL
 from app.tasks.clustering import start_clustering
 from app.tasks.instagram import mongo, get_insights
 from app.tasks.notification import db
-from app.utils.notifications import notif
+# from app.utils.notifications import notif
 from app.utils.set_pagination import set_offset
 
 import pandas as pd
@@ -21,7 +21,10 @@ app.secret_key = SECRET_KEY
 
 ig_post_coll = IG_POSTS_COLL
 
-
+def notif():
+    notifikasi=db.get_notif(session['id'])
+    n = sum(map(lambda x: x[3]!=True, notifikasi))
+    session['notifikasi'] = n
 
 
 @app.errorhandler(404)
@@ -38,7 +41,7 @@ def index():
             login_data = db.login(username, password)
             
             if username==login_data[1] and password==login_data[2]:
-                # session['id'] = login_data[0]
+                session['id'] = login_data[0]
                 session['username'] = login_data[1]
                 session['nama_lengkap'] = login_data[3]
                 notif()
