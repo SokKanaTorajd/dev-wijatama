@@ -212,7 +212,7 @@ def collect_data():
 def start_process():
     if request.method == 'GET':
         start_clustering.delay(session['id'])
-        flash('Proses sedang dilakukan, silahkan tunggu hingga muncul notifikasi.')
+        flash('Proses sedang dilakukan, silahkan tunggu. Refresh halaman untuk melihat notifikasi baru.')
         return redirect(url_for('dashboard_view'))
 
 @app.route('/hasil-rekomendasi')
