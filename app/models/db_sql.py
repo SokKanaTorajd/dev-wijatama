@@ -80,7 +80,7 @@ class SQLDatabase():
     def get_notif(self, user_id):
         self.open_conn()
         q = f"SELECT id, message, created_at, is_read FROM notifications \
-            WHERE user='{user_id}' ORDER BY created_at DESC LIMIT 5"
+            WHERE user='{user_id}' ORDER BY created_at DESC"
         self.cursor.execute(q)
         notifications = [(id, message, created_at, is_read) for id, message, created_at, is_read in self.cursor.fetchall()]
         self.close_conn()
