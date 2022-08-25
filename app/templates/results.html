@@ -29,10 +29,10 @@
                     <tbody>
                         <tr>
                             {% for table in tables %}
-                                {{ table[0]|safe }}
-                                {{ table[1]|safe}}
-                                {{ table[2]|safe }}
-                                {{ table[3]|safe }}
+                                <td>{{ table[0]|safe }}</td>
+                                <td>{{ table[1]|safe}}</td>
+                                <td>{{ table[2]|safe }}</td>
+                                <td>{{ table[3]|safe }}</td>
                             {% endfor %}
                         </tr>
                     </tbody>
