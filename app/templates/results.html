@@ -28,12 +28,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            {% for table in tables %}
-                                {{ table.produk|safe }}
-                                {{ table.produk_terjual|safe}}
-                                {{ table.produk_dilihat }}
-                                {{ table.keranjang }}
-                            {% endfor %}
+                                {{ tables.produk|safe }}
+                                {{ tables.produk_terjual|safe}}
+                                {{ tables.produk_dilihat|safe }}
+                                {{ tables.keranjang|safe }}
                         </tr>
                     </tbody>
                 </table>
