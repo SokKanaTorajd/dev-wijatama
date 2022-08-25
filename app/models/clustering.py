@@ -126,5 +126,4 @@ def process_clustering(model, dataframe):
     scaled_df = data_scaling(copied_df, copied_df.columns)
     # clustering
     dataframe['cluster'] = model.predict(scaled_df)
-    print(dataframe.info())
     return dataframe
