@@ -11,27 +11,28 @@
             <h6 class="m-0 font-weight-bold text-primary">Ringkasan Rekomendasi</h6>
         </div>
         <div class="card-body">
-            <p>Berikut ini merupakan hasil dan keterangan dari proses yang dihasilkan:</p><br>
+            <p>Berikut ini merupakan hasil dan keterangan dari proses yang dihasilkan. Hasil lebih detail bisa dilihat pada tabel di bawah.</p><br>
             <p>Keterangan:</p>
             <ol>
-                <li>Klaster 0</li><br>
-                <p>Produk yang termasuk dalam klaster 0 adalah produk yang memiliki nilai metrik penjualan dan instagram yang rendah.</p>
-                <li>Klaster 1</li><br>
-                <p>Produk yang termasuk dalam klaster 1 adalah produk yang memiliki nilai metrik penjualan dan instagram yang tinggi daripada klaster 0.</p>
-                <li>Klaster 2</li><br>
-                <p>Produk yang termasuk dalam klaster 2 adalah produk yang memiliki nilai metrik instagram yang sangat tinggi.</p>
+                <li>Klaster 0</li>
+                <p>Produk yang termasuk dalam klaster 0 adalah produk yang memiliki nilai metrik penjualan dan instagram yang rendah. Produk dalam klaster ini agar lebih sering dipromosikan.</p>
+                <li>Klaster 1</li>
+                <p>Produk yang termasuk dalam klaster 1 adalah produk yang memiliki nilai metrik penjualan dan instagram yang tinggi daripada klaster 0. Produk dalam klaster ini dapat dipromosikan kembali.</p>
+                <li>Klaster 2</li>
+                <p>Produk yang termasuk dalam klaster 2 adalah produk yang memiliki nilai metrik instagram yang sangat tinggi. Promosi yang dilakukan sudah bagus.</p>
             </ol>
             <p>Hasil:</p>
             <ol>
-                <li>Klaster 0</li><br>
-                <p>Beberapa produk dalam klaster 0 yang direkomendasikan untuk lebih sering dipromosikan </p><br>
+                <li>Klaster 0</li><
+                <p>Beberapa produk dalam klaster 0 yang direkomendasikan untuk lebih sering dipromosikan</p>
                 <ul>
                     {% for product in products_0 %}
                         <li>{{ product }}</li>
                     {% endfor %}
                 </ul>
+                <br>
                 <li>Klaster 1</li><br>
-                <p>Beberapa produk dalam klaster 1 bisa dipromosikan kembali</p><br>
+                <p>Beberapa produk dalam klaster 1 bisa dipromosikan kembali</p>
                 <ul>
                     {% for product in products_1 %}
                         <li>{{ product }}</li>
