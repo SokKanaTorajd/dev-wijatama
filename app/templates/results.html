@@ -8,7 +8,41 @@
 <div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Hasil Rekomendasi</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Ringkasan Rekomendasi</h6>
+        </div>
+        <div class="card-body">
+            <p>Berikut ini merupakan hasil dan keterangan dari proses yang dihasilkan:</p><br>
+            <p>Keterangan:</p>
+            <ol>
+                <li>Klaster 0</li><br>
+                <p>Produk yang termasuk dalam klaster 0 adalah produk yang memiliki nilai metrik penjualan dan instagram yang rendah.</p>
+                <li>Klaster 1</li><br>
+                <p>Produk yang termasuk dalam klaster 1 adalah produk yang memiliki nilai metrik penjualan dan instagram yang tinggi daripada klaster 0.</p>
+                <li>Klaster 2</li><br>
+                <p>Produk yang termasuk dalam klaster 2 adalah produk yang memiliki nilai metrik instagram yang sangat tinggi.</p>
+            </ol>
+            <p>Hasil:</p>
+            <ol>
+                <li>Klaster 0</li><br>
+                <p>Beberapa produk dalam klaster 0 yang direkomendasikan untuk lebih sering dipromosikan </p><br>
+                <ul>
+                    {% for product in products_0 %}
+                        <li>{{ product }}</li>
+                    {% endfor %}
+                </ul>
+                <li>Klaster 1</li><br>
+                <p>Beberapa produk dalam klaster 1 bisa dipromosikan kembali</p><br>
+                <ul>
+                    {% for product in products_1 %}
+                        <li>{{ product }}</li>
+                    {% endfor %}
+                </ul>
+            </ol>
+        </div>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tabel Hasil Rekomendasi</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -49,18 +83,7 @@
             </div>
         </div>
     </div>
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Hasil Rekomendasi</h6>
-        </div>
-        <div class="card-body">
-            <ul>
-                {% for product in products %}
-                    <li>{{ product }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+    
 </div>
 <script type="text/javascript">
     $(document).ready(function () {

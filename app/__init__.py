@@ -231,8 +231,11 @@ def output_clustering():
     contents = download_blob_as_bytes(filename, dest_folder)
     results = pd.read_excel(contents)
     data = results.values.tolist()
-    filtered_cluster = results[results['cluster']==0]
-    products = filtered_cluster['produk']
+    filtered_cluster_0 = results[results['cluster']==0]
+    products_0 = filtered_cluster_0.sort_values(by=['produk_terjual', 'engagement'], ascending=True).head()['produk']
+
+    filtered_cluster_1 = results[results['cluster']==1]
+    products_1 = filtered_cluster_1.sort_values(by=['produk_terjual', 'engagement'], ascending=True).head()['produk']
 
     # page, per_page, offset = get_page_args(page_parameter='page',
     #                                        per_page_parameter='per_page')
@@ -244,7 +247,8 @@ def output_clustering():
     # return render_template('results.html', products=products, data=pagination_data,
     #                         pagination=pagination, page=page, per_page=per_page)
 
-    return render_template('results.html', products=products, data=data)
+    return render_template('results.html', products_0=products_0,
+                            products_1=products_1, data=data)
 
 @app.route('/notifikasi', methods=['GET', 'POST'])
 def notify():
