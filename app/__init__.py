@@ -234,15 +234,17 @@ def output_clustering():
     filtered_cluster = results[results['cluster']==0]
     products = filtered_cluster['produk']
 
-    page, per_page, offset = get_page_args(page_parameter='page',
-                                           per_page_parameter='per_page')
-    total = len(data)
-    pagination_data = set_offset(data, offset=offset, per_page=per_page)
-    pagination = Pagination(page=page, per_page=per_page, total=total,
-                            css_framework='bootstrap4')
+    # page, per_page, offset = get_page_args(page_parameter='page',
+    #                                        per_page_parameter='per_page')
+    # total = len(data)
+    # pagination_data = set_offset(data, offset=offset, per_page=per_page)
+    # pagination = Pagination(page=page, per_page=per_page, total=total,
+    #                         css_framework='bootstrap4')
 
-    return render_template('results.html', products=products, data=pagination_data,
-                            pagination=pagination, page=page, per_page=per_page)
+    # return render_template('results.html', products=products, data=pagination_data,
+    #                         pagination=pagination, page=page, per_page=per_page)
+
+    return render_template('results.html', products=products, data=data)
 
 @app.route('/notifikasi', methods=['GET', 'POST'])
 def notify():
