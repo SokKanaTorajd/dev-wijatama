@@ -243,7 +243,7 @@ def output_clustering():
 
     # return render_template('results.html', products=products, data=pagination_data,
     #                         pagination=pagination, page=page, per_page=per_page)
-    return render_template('results.html', tables=[results.to_html(classes='data', header=False)])
+    return render_template('results.html', tables=[results.to_html(classes='data', header=True)])
 
 @app.route('/notifikasi', methods=['GET', 'POST'])
 def notify():
