@@ -18,20 +18,21 @@
                             <th scope="col">Produk Terjual</th>
                             <th scope="col">Produk Dilihat</th>
                             <th scope="col">Keranjang</th>
-                            <!-- <th scope="col">Wishlist</th>
+                            <th scope="col">Wishlist</th>
                             <th scope="col">Engagement</th>
                             <th scope="col">Impressions</th>
                             <th scope="col">Reach</th>
                             <th scope="col">Saved</th>
-                            <th scope="col">Cluster</th> -->
+                            <th scope="col">Cluster</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                                {{ tables.produk|safe }}
-                                {{ tables.produk_terjual|safe}}
-                                {{ tables.produk_dilihat|safe }}
-                                {{ tables.keranjang|safe }}
+                            {% for table in tables %}
+                                {{ table[0]|safe }}
+                                {{ table[1]|safe}}
+                                {{ table[2]|safe }}
+                                {{ table[3]|safe }}
                         </tr>
                     </tbody>
                 </table>
@@ -53,8 +54,8 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-  $('#dtResults').DataTable({
-    order: [0,1,2,3,4,5,6,7,8,9]
+        $('#dtResults').DataTable({
+            order: [0,1,2,3,4,5,6,7,8,9]
   });
 });
 </script>"
