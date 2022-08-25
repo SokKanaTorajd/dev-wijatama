@@ -230,9 +230,9 @@ def output_clustering():
     filename = newest[0]
     contents = download_blob_as_bytes(filename, dest_folder)
     results = pd.read_excel(contents)
-    data = results.values.tolist()
+    # data = results.values.tolist()
     filtered_cluster = results[results['cluster']==0]
-    products = filtered_cluster['produk']
+    # products = filtered_cluster['produk']
 
     # page, per_page, offset = get_page_args(page_parameter='page',
     #                                        per_page_parameter='per_page')
@@ -243,7 +243,7 @@ def output_clustering():
 
     # return render_template('results.html', products=products, data=pagination_data,
     #                         pagination=pagination, page=page, per_page=per_page)
-    return render_template('results.html', data=data)
+    return render_template('results.html', data=results)
 
 @app.route('/notifikasi', methods=['GET', 'POST'])
 def notify():
