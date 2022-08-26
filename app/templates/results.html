@@ -105,7 +105,7 @@
 <script>
     $(document).ready(function () {
         $('#dtResults').DataTable();
-        $('#example tfoot th').each(function () {
+        $('#dtResults tfoot th').each(function () {
         var title = $(this).text();
         $(this).html('<input type="text" placeholder="Search ' + title + '" />');
     });
