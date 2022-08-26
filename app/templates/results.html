@@ -12,7 +12,7 @@
             <p>Keterangan:</p>
             <ol>
                 <li>Klaster 0</li>
-                <p>Produk yang termasuk dalam klaster 0 adalah produk yang memiliki nilai metrik penjualan dan instagram yang rendah. Produk dalam klaster ini agar lebih sering dipromosikan.</p>
+                <p>Produk yang termasuk dalam klaster 0 adalah produk yang memiliki nilai metrik penjualan dan instagram yang rendah. Produk dalam klaster ini disarankan agar lebih sering dipromosikan.</p>
                 <li>Klaster 1</li>
                 <p>Produk yang termasuk dalam klaster 1 adalah produk yang memiliki nilai metrik penjualan dan instagram yang tinggi daripada klaster 0. Produk dalam klaster ini dapat dipromosikan kembali.</p>
                 <li>Klaster 2</li>
@@ -84,3 +84,7 @@
     
 </div>
 {% endblock main %}
+
+$('#dtResults').dataTable( {
+    "ordering": false
+  } );
