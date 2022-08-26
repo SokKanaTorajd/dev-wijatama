@@ -232,13 +232,13 @@ def output_clustering():
     results = pd.read_excel(contents)
     data = results.values.tolist()
     filtered_cluster_0 = results[results['cluster']==0]
-    products_0 = filtered_cluster_0.sort_values(by=['produk_terjual', 'engagement'], ascending=True).head()['produk', 'produk_terjual']
+    products_0 = filtered_cluster_0.sort_values(by=['produk_terjual', 'engagement'], ascending=True).head()
     products_0 = products_0[['produk', 'produk_terjual']]
 
     filtered_cluster_1 = results[results['cluster']==1]
-    products_1 = filtered_cluster_1.sort_values(by=['produk_terjual', 'engagement'], ascending=True).head()['produk', 'produk_terjual']
+    products_1 = filtered_cluster_1.sort_values(by=['produk_terjual', 'engagement'], ascending=True).head()
     products_1 = products_1[['produk', 'produk_terjual']]
-    
+
     # page, per_page, offset = get_page_args(page_parameter='page',
     #                                        per_page_parameter='per_page')
     # total = len(data)
