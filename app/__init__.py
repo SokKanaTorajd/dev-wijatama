@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, \
     redirect, url_for, session, flash
 from flask_paginate import Pagination, get_page_args
+from numpy import product
 from werkzeug.utils import secure_filename
 
 from app.cloud_storage.gcp_storage import upload_blob_from_filename, \
@@ -234,10 +235,12 @@ def output_clustering():
     filtered_cluster_0 = results[results['cluster']==0]
     products_0 = filtered_cluster_0.sort_values(by=['produk_terjual', 'engagement'], ascending=True).head()
     products_0 = products_0[['produk', 'produk_terjual']]
+    products_0 = products_0.values.tolist()
 
     filtered_cluster_1 = results[results['cluster']==1]
     products_1 = filtered_cluster_1.sort_values(by=['produk_terjual', 'engagement'], ascending=True).head()
     products_1 = products_1[['produk', 'produk_terjual']]
+    products_1 = products_1.values.tolist()
 
     # page, per_page, offset = get_page_args(page_parameter='page',
     #                                        per_page_parameter='per_page')
