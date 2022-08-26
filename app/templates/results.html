@@ -2,6 +2,11 @@
 {% block title %} Hasil Rekomendasi Promosi Produk Maula Hijab {% endblock %}
 
 {% block main %}
+<link src="https://code.jquery.com/jquery-3.5.1.js">
+<link src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js">
+<link src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js">
+<script src="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"></script>
 <div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -84,9 +89,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        $('#dtResults').dataTable({
-            "ordering": true
-        });
+        $('#dtResults').dataTable();
     });
 </script>
 {% endblock main %}
