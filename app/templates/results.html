@@ -29,7 +29,7 @@
                 <p>Beberapa produk dalam klaster 0 yang direkomendasikan untuk lebih sering dipromosikan</p>
                 <ul>
                     {% for product in products_0 %}
-                        <li>{{ product }}, jumlah penjualan produk: {{ produk[1] }}</li>
+                        <li>{{ product[0] }}, jumlah penjualan produk: {{ produk[1] }}</li>
                     {% endfor %}
                 </ul>
                 <br>
