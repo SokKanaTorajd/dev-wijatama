@@ -102,11 +102,11 @@
 </div>
 <script>
     $(document).ready(function () {
-        $('#searchHeader').each(function () {
+        $('#searchHeader th').each(function () {
         var title = $(this).text();
         $(this).html('<input type="text" placeholder="Search ' + title + '" />');
         });
-        var table = $('#dtResults').DataTable({
+        var table = $('#example').DataTable({
         initComplete: function () {
             // Apply the search
             this.api()
